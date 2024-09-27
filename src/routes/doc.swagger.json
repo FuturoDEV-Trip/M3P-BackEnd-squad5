@@ -1,0 +1,360 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API - Viagem365",
+    "description": "MVP da aplicação BackEnd",
+    "version": "1.0.0"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "securityDefinitions": {
+    "apiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "authorization",
+      "description": "Token Autenticação de usuário"
+    }
+  },
+  "paths": {
+    "/usuarios/": {
+      "post": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Cadastrar Novo Usuário",
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Adiciona um novo Usuario",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cpf_usuario": {
+                  "type": "string",
+                  "example": "06954171778"
+                },
+                "nome_usuario": {
+                  "type": "string",
+                  "example": "Mario Guerreiro"
+                },
+                "sexo_usuario": {
+                  "type": "string",
+                  "example": "Masculino"
+                },
+                "cep_usuario": {
+                  "type": "string",
+                  "example": "88060-400"
+                },
+                "email_usuario": {
+                  "type": "string",
+                  "example": "mariog@gmail.com"
+                },
+                "senha_usuario": {
+                  "type": "string",
+                  "example": "123456"
+                },
+                "nascimento_usuario": {
+                  "type": "string",
+                  "example": "1984-06-26"
+                }
+              },
+              "required": [
+                "cpf_usuario",
+                "nome_usuario",
+                "sexo_usuario",
+                "cep_usuario",
+                "email_usuario",
+                "senha_usuario",
+                "nascimento_usuario"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Usuário criado com Sucesso"
+          },
+          "400": {
+            "description": "Campo Obrigatório"
+          },
+          "409": {
+            "description": "Usuário já existente"
+          },
+          "500": {
+            "description": "Erro Geral"
+          }
+        }
+      }
+    },
+    "/local/": {
+      "post": {
+        "tags": [
+          "Destino"
+        ],
+        "summary": "Cadastrar Novo Destino",
+        "description": "",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Adiciona um novo Destino",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id_usuario": {
+                  "type": "number",
+                  "example": 1
+                },
+                "localidade_destino": {
+                  "type": "string",
+                  "example": "Praias de Floripa"
+                },
+                "uf_destino": {
+                  "type": "string",
+                  "example": "SC"
+                },
+                "nome_destino": {
+                  "type": "string",
+                  "example": "no do destino"
+                }
+              },
+              "required": [
+                "id_usuario",
+                "localidade_destino",
+                "uf_destino",
+                "nome_destino"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Destino cadastrado com sucesso"
+          },
+          "401": {
+            "description": "Usuario sem permissão"
+          },
+          "404": {
+            "description": "Destino não encontrado"
+          },
+          "409": {
+            "description": "Destino já cadastrado para este Usuário"
+          },
+          "500": {
+            "description": "Erro Geral"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Destino"
+        ],
+        "summary": "Listar todos os destinos do usuário logado",
+        "description": "Rota para listar todos os locais cadastrados pelo usuário autenticado.",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Destino listado com sucesso"
+          },
+          "401": {
+            "description": "Usuario sem permissão."
+          },
+          "403": {
+            "description": "Usuario sem permissão para listar Destinos de outro usuário"
+          },
+          "404": {
+            "description": "Destino não encontrado"
+          },
+          "500": {
+            "description": "Erro Geral"
+          }
+        }
+      }
+    },
+    "/local/{id}": {
+      "get": {
+        "tags": [
+          "Destino"
+        ],
+        "summary": "Listar Destino especifico do Usuário",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Destino Listado com sucesso"
+          },
+          "401": {
+            "description": "Usuario sem permissão."
+          },
+          "403": {
+            "description": "Usuario sem permissão para listar Destino de outro usuário"
+          },
+          "404": {
+            "description": "Destino não encontrado"
+          },
+          "500": {
+            "description": "Erro Geral"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Destino"
+        ],
+        "summary": "Alterar o Destino do usuário Logado",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Alterar um Destino"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Destino alterado com sucesso"
+          },
+          "401": {
+            "description": "Usuario sem permissão."
+          },
+          "403": {
+            "description": "Usuario sem permissão para alteração deste Destino"
+          },
+          "404": {
+            "description": "Destino não encontrado"
+          },
+          "500": {
+            "description": "Erro Geral"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Destino"
+        ],
+        "summary": "Rota para Excluir um Destino do usuário Logado",
+        "description": "Rota para excluir informações de um destino específico cadastrado pelo usuário.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Destino excluido com sucesso"
+          },
+          "401": {
+            "description": "Usuario sem permissão."
+          },
+          "403": {
+            "description": "Usuario sem permissão para exclusão deste Destino"
+          },
+          "404": {
+            "description": "Destino não encontrado"
+          },
+          "500": {
+            "description": "Erro Geral"
+          }
+        }
+      }
+    },
+    "/login/": {
+      "post": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Gerar Token para o usuário",
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "criar o Token do Usuário",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email_usuario": {
+                  "type": "string",
+                  "example": "mariog@gmail.com"
+                },
+                "senha_usuario": {
+                  "type": "string",
+                  "example": "123456"
+                }
+              },
+              "required": [
+                "email_usuario",
+                "senha_usuario"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Token criado com Sucesso"
+          },
+          "400": {
+            "description": "Campo Obrigatório"
+          },
+          "403": {
+            "description": "Usuário sem Permissão"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          },
+          "500": {
+            "description": "Erro Geral"
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "apiKeyAuth": []
+    }
+  ]
+}
