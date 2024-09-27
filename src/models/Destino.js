@@ -8,6 +8,9 @@ const Destino = connection.define('destinos', {
     nome_destino: {
         type: DataTypes.STRING
     },
+    cep_destino: {
+        type: DataTypes.STRING
+    },
     descricao_destino: {
         type: DataTypes.STRING
     },
