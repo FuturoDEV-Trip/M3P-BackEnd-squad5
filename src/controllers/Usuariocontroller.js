@@ -1,39 +1,9 @@
 const Usuario = require("../models/Usuario");
-const yup = require("yup");
 const { validarCPF } = require("../service/validacoes");
 const axios = require("axios");
 class Usuariocontroller {
   //--- Rota para cadastrar o usuário ---
   async cadastrarUsuario(req, res) {
-    /*  
-            #swagger.tags = ['Usuario'],
-            #swagger.parameters['body'] = {
-                in: 'body',
-                description: 'Adiciona um novo Usuario',
-                schema: {
-                    $cpf_usuario: "06954171778",
-                    $nome_usuario: "Mario Guerreiro",
-                    $sexo_usuario: "Masculino",
-                    $cep_usuario: "88060-400",
-                    $email_usuario: "mariog@gmail.com",
-                    $senha_usuario: "123456",
-                    $nascimento_usuario: "1984-06-26"
-            }
-           }
-           #swagger.summary = 'Cadastrar Novo Usuário'
-            #swagger.responses: [201] = {
-                 description: "Usuário criado com Sucesso"
-              },
-            #swagger.responses: [400] ={
-                 description: "Campo Obrigatório"
-            },
-              #swagger.responses: [409] ={
-                 description: "Usuário já existente"
-            },
-              #swagger.responses: [500] ={
-                 description: "Erro Geral"
-            }
-    */
 
     try {
       const cpf_usuario = req.body.cpf_usuario;
@@ -69,10 +39,11 @@ class Usuariocontroller {
 
       // --- Carregar endereço do cep fornecido ---
       const response = await axios.get(
-        `https://nominatim.openstreetmap.org/search?format=json&postalcode=${cep_usuario}&country=Brazil&limit=1`
+        `https://viacep.com.br/ws/${cep_usuario}/json/`
       );
 
       if (response.data && response.data.length > 0) {
+        console.log(response.data[0].display_name)
         endereco_usuario = response.data[0].display_name;
       } else {
         endereco_usuario = "";
