@@ -231,11 +231,6 @@ class DestinoController {
 
       const usuarioAutenticado = req.payload ? req.payload.sub : null;
 
-      if (!id_usuario) {
-        return res
-          .status(400)
-          .json({ message: "O código do usuário é obrigatório" });
-      }
 
       if (!descricao_destino) {
         return res
