@@ -223,7 +223,6 @@ class DestinoController {
     try {
 
       const {
-        id_usuario,
         descricao_destino,
         nome_destino,
         cep_destino }
