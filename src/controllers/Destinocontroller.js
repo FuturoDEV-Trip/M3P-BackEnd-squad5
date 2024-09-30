@@ -282,7 +282,7 @@ class DestinoController {
       const coordenadas = `${lat},${lon}`;
 
       const destino = await Destino.create({
-        id_usuario,
+        id_usuario: usuarioAutenticado,
         descricao_destino,
         nome_destino,
         cep_destino,
