@@ -40,6 +40,10 @@ module.exports = {
           type: Sequelize.INTEGER,
           allowNull: false
         },
+        img_destino: {
+          type: Sequelize.STRING, 
+          allowNull: false 
+        },
         coordenadas_destino: {
           allowNull: false,
           type: Sequelize.STRING
