@@ -225,7 +225,8 @@ class DestinoController {
       const {
         descricao_destino,
         nome_destino,
-        cep_destino }
+        cep_destino,
+        img_destino }
         = req.body
 
       const usuarioAutenticado = req.payload ? req.payload.sub : null;
@@ -280,6 +281,7 @@ class DestinoController {
         descricao_destino,
         nome_destino,
         cep_destino,
+        img_destino,
         localidade_destino: display_name,
         coordenadas_destino: coordenadas,
       });
