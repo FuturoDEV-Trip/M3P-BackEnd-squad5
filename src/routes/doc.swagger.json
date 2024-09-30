@@ -91,7 +91,7 @@
         }
       }
     },
-    "/local/": {
+    "/destinos/": {
       "post": {
         "tags": [
           "Destino"
@@ -141,6 +141,9 @@
           "201": {
             "description": "Destino cadastrado com sucesso"
           },
+          "400": {
+            "description": "Bad Request"
+          },
           "401": {
             "description": "Usuario sem permissão"
           },
@@ -187,7 +190,7 @@
         }
       }
     },
-    "/local/{id}": {
+    "/destinos/{id}": {
       "get": {
         "tags": [
           "Destino"
@@ -347,6 +350,39 @@
           },
           "500": {
             "description": "Erro Geral"
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "tags": [
+          "Dashboard"
+        ],
+        "summary": "Obter dados do dashboard público",
+        "description": "Endpoint para retornar o total de locais de visitação e o número de usuários ativos.",
+        "responses": {
+          "200": {
+            "description": "Dados do dashboard obtidos com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "total_locais": {
+                  "type": "number",
+                  "example": 123
+                },
+                "usuarios_ativos": {
+                  "type": "number",
+                  "example": 456
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao obter os dados do dashboard"
           }
         }
       }
