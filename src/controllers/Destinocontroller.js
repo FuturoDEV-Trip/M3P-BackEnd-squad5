@@ -191,59 +191,56 @@ class DestinoController {
 
   //Rota para cadastrar um destino para o usuário logado.
   async cadastrarDestino(req, res) {
-  /*  
-    #swagger.tags = ['Destino'],
-       #swagger.parameters['body'] = { 
-         in: 'body',
-           description: 'Adiciona um novo Destino',
-           schema:{
-               $id_usuario: 1,
-               $localidade_destino: "Praias de Floripa",
-               $uf_destino: "SC",
-               $nome_destino: "no do destino",
-           }
-       }
-       #swagger.summary = 'Cadastrar Novo Destino'
-       #swagger.responses: [201] = {
-             description: "Destino cadastrado com sucesso"
-       },
-       #swagger.responses: [401] ={
-            description: "Usuario sem permissão"
-       },
-       #swagger.responses: [404] ={
-            description: "Destino não encontrado"
-       },
-       #swagger.responses: [409] ={
-            description: "Destino já cadastrado para este Usuário"
-       },       
-       #swagger.responses: [500] ={
-            description: "Erro Geral"
-       }
-   */
+    /*  
+      #swagger.tags = ['Destino'],
+         #swagger.parameters['body'] = { 
+           in: 'body',
+             description: 'Adiciona um novo Destino',
+             schema:{
+                 $id_usuario: 1,
+                 $localidade_destino: "Praias de Floripa",
+                 $uf_destino: "SC",
+                 $nome_destino: "no do destino",
+             }
+         }
+         #swagger.summary = 'Cadastrar Novo Destino'
+         #swagger.responses: [201] = {
+               description: "Destino cadastrado com sucesso"
+         },
+         #swagger.responses: [401] ={
+              description: "Usuario sem permissão"
+         },
+         #swagger.responses: [404] ={
+              description: "Destino não encontrado"
+         },
+         #swagger.responses: [409] ={
+              description: "Destino já cadastrado para este Usuário"
+         },       
+         #swagger.responses: [500] ={
+              description: "Erro Geral"
+         }
+     */
     try {
-      const id_usuario = req.body.id_usuario;
-      const localidade_destino = req.body.localidade_destino;
-      const uf_destino = req.body.uf_destino;
-      const nome_destino = req.body.nome_destino;
+
+      const {
+        descricao_destino,
+        nome_destino,
+        cep_destino }
+        = req.body
 
       const usuarioAutenticado = req.payload ? req.payload.sub : null;
 
-      if (!id_usuario) {
+
+      if (!descricao_destino) {
         return res
           .status(400)
-          .json({ message: "o código do usuário é obrigatório" });
+          .json({ message: "A descrição é obrigatória" });
       }
 
-      if (!localidade_destino) {
+      if (!cep_destino) {
         return res
           .status(400)
-          .json({ message: "A localidade é obrigatória" });
-      }
-
-      if (!uf_destino) {
-        return res
-          .status(400)
-          .json({ message: "o Estado é obrigatório" });
+          .json({ message: 'O cep é obrigatório!' })
       }
 
       if (!nome_destino) {
@@ -254,8 +251,7 @@ class DestinoController {
 
       const destinoExistente = await Destino.findOne({
         where: {
-          localidade_destino: localidade_destino,
-          uf_destino: uf_destino,
+          cep_destino: cep_destino,
           id_usuario: usuarioAutenticado,
         },
       });
@@ -266,27 +262,25 @@ class DestinoController {
           .json({ message: "Destino já cadastrado para este usuário" });
       }
       // Pegar as informações da localidade solicitada
-      let response = await axios.get(
-        `https://nominatim.openstreetmap.org/search?format=json&county=${localidade_destino}&state=${uf_destino}`
-      );
-      let descricao = null;
-      let latitude = null;
-      let longitude = null;
-      let coordenadas = null;
 
-      if (response.data && response.data.length > 0) {
-        descricao = response.data[0].display_name;
-        latitude = response.data[0].lat;
-        longitude = response.data[0].lon;
-        coordenadas = `Latitude: ${latitude} - Longitude: ${longitude}`;
+      let buscaCoordenadas = await axios.get(`https://nominatim.openstreetmap.org/search?postalcode=${cep_destino}&format=json&addressdetails=1&limit=1`)
+      let lat = null
+      let lon = null
+      let display_name = null
+
+      if (buscaCoordenadas.data && buscaCoordenadas.data.length > 0) {
+        lat = buscaCoordenadas.data[0].lat
+        lon = buscaCoordenadas.data[0].lon
+        display_name = buscaCoordenadas.data[0].display_name
       }
+      const coordenadas = `${lat},${lon}`;
 
       const destino = await Destino.create({
-        id_usuario,
-        descricao_destino: descricao,
+        id_usuario: usuarioAutenticado,
+        descricao_destino,
         nome_destino,
-        uf_destino,
-        localidade_destino,
+        cep_destino,
+        localidade_destino: display_name,
         coordenadas_destino: coordenadas,
       });
 
