@@ -94,7 +94,7 @@
     "/destinos/": {
       "post": {
         "tags": [
-          "Destino"
+          "destinos"
         ],
         "summary": "Cadastrar Novo Destino",
         "description": "",

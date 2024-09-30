@@ -197,10 +197,10 @@ class DestinoController {
            in: 'body',
              description: 'Adiciona um novo Destino',
              schema:{
-                 $id_usuario: 1,
-                 $localidade_destino: "Praias de Floripa",
-                 $uf_destino: "SC",
-                 $nome_destino: "no do destino",
+        $nome_destino:"Praia do Canto",
+        $cep_destino:"88190000",
+        $img_destino:"url_img/teste.com",
+        $descricao_destino:"Lugar muito lindo"
              }
          }
          #swagger.summary = 'Cadastrar Novo Destino'
@@ -225,7 +225,8 @@ class DestinoController {
       const {
         descricao_destino,
         nome_destino,
-        cep_destino }
+        cep_destino,
+        img_destino }
         = req.body
 
       const usuarioAutenticado = req.payload ? req.payload.sub : null;
@@ -280,6 +281,7 @@ class DestinoController {
         descricao_destino,
         nome_destino,
         cep_destino,
+        img_destino,
         localidade_destino: display_name,
         coordenadas_destino: coordenadas,
       });
