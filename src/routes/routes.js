@@ -9,7 +9,7 @@ const swaggerDocument = require('./doc.swagger.json');
 
 routes.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 routes.use("/usuarios", usuarioRoutes);
-routes.use("/destinos", destinoRoutes);
+routes.use("/local", destinoRoutes);
 routes.use("/login", loginRoutes);
 
 module.exports = routes;

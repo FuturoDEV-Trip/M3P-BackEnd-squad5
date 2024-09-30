@@ -1,4 +1,5 @@
 const Usuario = require("../models/Usuario");
+const yup = require("yup");
 const { validarCPF } = require("../service/validacoes");
 const axios = require("axios");
 class Usuariocontroller {

@@ -8,19 +8,18 @@ const Destino = connection.define('destinos', {
     nome_destino: {
         type: DataTypes.STRING
     },
-    cep_destino: {
-        type: DataTypes.STRING
-    },
     descricao_destino: {
         type: DataTypes.STRING
     },
     localidade_destino: {
         type: DataTypes.STRING
     },
+    uf_destino: {
+        type: DataTypes.STRING
+    },
     coordenadas_destino: {
         type: DataTypes.STRING
-    }
+    },
 })
 
 module.exports = Destino
-
