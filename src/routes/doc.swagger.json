@@ -48,7 +48,7 @@
                 },
                 "cep_usuario": {
                   "type": "string",
-                  "example": "88060400"
+                  "example": "88060-400"
                 },
                 "email_usuario": {
                   "type": "string",
