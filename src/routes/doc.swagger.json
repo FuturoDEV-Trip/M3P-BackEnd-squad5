@@ -22,15 +22,15 @@
     "/usuarios/": {
       "post": {
         "tags": [
-          "Usuario"
+          "Usuário"
         ],
-        "summary": "Cadastrar Novo Usuário",
+        "summary": "Cadastrar novo usuário",
         "description": "",
         "parameters": [
           {
             "name": "body",
             "in": "body",
-            "description": "Adiciona um novo Usuario",
+            "description": "Este endpoint cria um novo usuário",
             "schema": {
               "type": "object",
               "properties": {
@@ -48,7 +48,7 @@
                 },
                 "cep_usuario": {
                   "type": "string",
-                  "example": "88060400"
+                  "example": "88060-400"
                 },
                 "email_usuario": {
                   "type": "string",
@@ -77,16 +77,225 @@
         ],
         "responses": {
           "201": {
-            "description": "Usuário criado com Sucesso"
+            "description": "Usuário cadastrado com sucesso"
           },
           "400": {
-            "description": "Campo Obrigatório"
+            "description": "Erro de validação, CPF inválido ou campos faltando"
           },
           "409": {
-            "description": "Usuário já existente"
+            "description": "Usuário já cadastrado no sistema"
           },
           "500": {
-            "description": "Erro Geral"
+            "description": "Erro ao cadastrar o usuário"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Usuário"
+        ],
+        "summary": "Listar todos os usuários",
+        "description": "",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/usuarios/{id}": {
+      "get": {
+        "tags": [
+          "Usuário"
+        ],
+        "summary": "Buscar usuário por ID",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Este endpoint busca usuário pelo ID",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cpf_usuario": {
+                  "type": "string",
+                  "example": "06954171778"
+                },
+                "nome_usuario": {
+                  "type": "string",
+                  "example": "Mario Guerreiro"
+                },
+                "sexo_usuario": {
+                  "type": "string",
+                  "example": "Masculino"
+                },
+                "cep_usuario": {
+                  "type": "string",
+                  "example": "88060-400"
+                },
+                "email_usuario": {
+                  "type": "string",
+                  "example": "mariog@gmail.com"
+                },
+                "senha_usuario": {
+                  "type": "string",
+                  "example": "123456"
+                },
+                "nascimento_usuario": {
+                  "type": "string",
+                  "example": "1984-06-26"
+                }
+              },
+              "required": [
+                "cpf_usuario",
+                "nome_usuario",
+                "sexo_usuario",
+                "cep_usuario",
+                "email_usuario",
+                "senha_usuario",
+                "nascimento_usuario"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          },
+          "500": {
+            "description": "Erro ao buscar o usuário pelo ID"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Usuário"
+        ],
+        "summary": "Atualizar usuário por ID",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "ID do usuário ao ser atualizado",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Este endpoint permite editar informações do usuário por ID",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cpf_usuario": {
+                  "type": "string",
+                  "example": "06954171778"
+                },
+                "nome_usuario": {
+                  "type": "string",
+                  "example": "Mario Guerreiro"
+                },
+                "sexo_usuario": {
+                  "type": "string",
+                  "example": "Masculino"
+                },
+                "cep_usuario": {
+                  "type": "string",
+                  "example": "88060-400"
+                },
+                "email_usuario": {
+                  "type": "string",
+                  "example": "mariog@gmail.com"
+                },
+                "senha_usuario": {
+                  "type": "string",
+                  "example": "123456"
+                },
+                "nascimento_usuario": {
+                  "type": "string",
+                  "example": "1984-06-26"
+                }
+              },
+              "required": [
+                "cpf_usuario",
+                "nome_usuario",
+                "sexo_usuario",
+                "cep_usuario",
+                "email_usuario",
+                "senha_usuario",
+                "nascimento_usuario"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário atualizado com sucesso"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Você não tem permissão para editar este usuário"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          },
+          "500": {
+            "description": "Erro ao buscar o usuário pelo ID"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "Usuário"
+        ],
+        "summary": "Deletar usuário por ID",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Este endpoint permite remover um usuário por ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário deletado com sucesso"
+          },
+          "403": {
+            "description": "Este usuário não pode ser deletado pois tem destinos associados"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          },
+          "500": {
+            "description": "Erro ao buscar o usuário pelo ID"
           }
         }
       }
@@ -94,7 +303,7 @@
     "/destinos/": {
       "post": {
         "tags": [
-          "destinos"
+          "Destino"
         ],
         "summary": "Cadastrar Novo Destino",
         "description": "",
@@ -111,28 +320,28 @@
             "schema": {
               "type": "object",
               "properties": {
-                "id_usuario": {
-                  "type": "number",
-                  "example": 1
-                },
-                "localidade_destino": {
-                  "type": "string",
-                  "example": "Praias de Floripa"
-                },
-                "uf_destino": {
-                  "type": "string",
-                  "example": "SC"
-                },
                 "nome_destino": {
                   "type": "string",
-                  "example": "no do destino"
+                  "example": "Praia do Canto"
+                },
+                "cep_destino": {
+                  "type": "string",
+                  "example": "88190000"
+                },
+                "img_destino": {
+                  "type": "string",
+                  "example": "url_img/teste.com"
+                },
+                "descricao_destino": {
+                  "type": "string",
+                  "example": "Lugar muito lindo"
                 }
               },
               "required": [
-                "id_usuario",
-                "localidade_destino",
-                "uf_destino",
-                "nome_destino"
+                "nome_destino",
+                "cep_destino",
+                "img_destino",
+                "descricao_destino"
               ]
             }
           }
