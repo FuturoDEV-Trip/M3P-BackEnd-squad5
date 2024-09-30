@@ -91,10 +91,10 @@
         }
       }
     },
-    "/local/": {
+    "/destinos/": {
       "post": {
         "tags": [
-          "Destino"
+          "destinos"
         ],
         "summary": "Cadastrar Novo Destino",
         "description": "",
@@ -187,7 +187,7 @@
         }
       }
     },
-    "/local/{id}": {
+    "/destinos/{id}": {
       "get": {
         "tags": [
           "Destino"
