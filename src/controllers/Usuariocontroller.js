@@ -1,7 +1,9 @@
 const Usuario = require("../models/Usuario");
-const Destino = require('../models/Destino');
-const { validarCPF } = require("../service/validacoes");
-const axios = require("axios");
+const Destino = require("../models/Destino");
+const { validarCPF } = require("../service/validarCpf");
+const { validarUsuario } = require("../service/validarUsuario");
+const { buscarEndereco } = require("../service/buscarEndereco");
+const { Op } = require('sequelize');
 
 class Usuariocontroller {
 
@@ -40,69 +42,30 @@ class Usuariocontroller {
     try {
       const { cpf_usuario, nome_usuario, sexo_usuario, cep_usuario, email_usuario, senha_usuario, nascimento_usuario } = req.body;
       let endereco_usuario = "";
+      let coordenadas_usuario = {};
 
-      // Verificação do CPF 
+      await validarUsuario(req.body);
+
       const cpfValido = await validarCPF(cpf_usuario);
       if (!cpfValido[0]) {
         return res.status(400).json({ message: cpfValido[1] });
       }
 
-      // Verifica duplicidade de usuário
+      // Validação de duplicidade (CPF ou e-mail já cadastrado)
       const usuarioExistente = await Usuario.findOne({
         where: {
-          cpf_usuario: cpf_usuario,
-        },
+          [Op.or]: [{ cpf_usuario }, {email_usuario }]
+        }
       });
       if (usuarioExistente) {
-        return res.status(409).json({ message: "Usuário já cadastrado no sistema" });
+          const dadosCadastrados = usuarioExistente.email_usuario === email_usuario ? 'E-mail já cadastrado' : 'CPF já cadastrado';
+
+        return res.status(409).json({ message: dadosCadastrados });
       }
 
-      // Validação do CEP
-      if (!cep_usuario) {
-        return res.status(400).json({ message: "O CEP é obrigatório" });
-      }
-
-      // Busca o endereço a partir do CEP
-      const response = await axios.get(
-        `https://viacep.com.br/ws/${cep_usuario}/json/`
-      );
-
-      if (response.data && response.data.length > 0) {
-        console.log(response.data[0].display_name)
-        endereco_usuario = response.data[0].display_name;
-      } else {
-        endereco_usuario = "";
-      }
-
-      // Validação campo sexo 
-      if (!sexo_usuario) {
-        return res.status(400).json({ message: "O campo sexo é obrigatório" });
-      }
-
-      // Validação campo e-mail 
-      if (
-        email_usuario === "" ||
-        email_usuario.indexOf("@") === -1 ||
-        email_usuario.indexOf(".") === -1
-      ) {
-        return res.status(400).json({ message: "Informe um e-mail válido" });
-      }
-
-      // Validação da data de nascimento 
-      if (!nascimento_usuario) {
-        return res.status(400).json({ message: "A data de nascimento é obrigatória" });
-      }
-
-      if (!nascimento_usuario.match(/\d{4}-\d{2}-\d{2}/gm)) {
-        return res.status(400).json({
-          message: "A data de nascimento tem que ser no formato AAAA-MM-DD",
-        });
-      }
-
-      // Validação da senha do usuário
-      if (!senha_usuario) {
-        return res.status(400).json({ message: "A senha do usuário é obrigatória" });
-      }
+      const { enderecoCompleto, coordenadas } = await buscarEndereco(cep_usuario);
+      endereco_usuario = enderecoCompleto;
+      coordenadas_usuario = coordenadas;
 
       const novoUsuario = await Usuario.create({
         cpf_usuario,
@@ -117,6 +80,16 @@ class Usuariocontroller {
 
       res.status(201).json(novoUsuario);
     } catch (error) {
+
+      if (error.message.includes("Nome deve conter entre 3 e 33 caracteres") || 
+          error.message.includes("Informe um e-mail válido") || 
+          error.message.includes("Senha é obrigatória") ||
+          error.message.includes("Gênero é obrigatório") ||
+          error.message.includes("Data de nascimento") ||
+          error.message.includes("CEP é obrigatório")) {
+        return res.status(400).json({ message: error.message });
+      }
+
       console.error(error);
       res.status(500).json({ error: "Não foi possível cadastrar o usuário" });
     }
