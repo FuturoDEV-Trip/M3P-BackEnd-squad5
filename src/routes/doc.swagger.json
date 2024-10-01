@@ -120,10 +120,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "cpf_usuario": {
-                  "type": "string",
-                  "example": "06954171778"
-                },
                 "nome_usuario": {
                   "type": "string",
                   "example": "Mario Guerreiro"
@@ -140,22 +136,16 @@
                   "type": "string",
                   "example": "mariog@gmail.com"
                 },
-                "senha_usuario": {
-                  "type": "string",
-                  "example": "123456"
-                },
                 "nascimento_usuario": {
                   "type": "string",
                   "example": "1984-06-26"
                 }
               },
               "required": [
-                "cpf_usuario",
                 "nome_usuario",
                 "sexo_usuario",
                 "cep_usuario",
                 "email_usuario",
-                "senha_usuario",
                 "nascimento_usuario"
               ]
             }
@@ -202,10 +192,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "cpf_usuario": {
-                  "type": "string",
-                  "example": "06954171778"
-                },
                 "nome_usuario": {
                   "type": "string",
                   "example": "Mario Guerreiro"
@@ -232,7 +218,6 @@
                 }
               },
               "required": [
-                "cpf_usuario",
                 "nome_usuario",
                 "sexo_usuario",
                 "cep_usuario",
@@ -282,11 +267,19 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "Usuário deletado com sucesso"
+          },
+          "401": {
+            "description": "Unauthorized"
           },
           "403": {
             "description": "Este usuário não pode ser deletado pois tem destinos associados"
@@ -297,7 +290,12 @@
           "500": {
             "description": "Erro ao buscar o usuário pelo ID"
           }
-        }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/destinos/": {

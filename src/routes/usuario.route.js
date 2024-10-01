@@ -10,6 +10,6 @@ usuarioRoutes.post('/', Usuariocontroller.cadastrarUsuario)
 usuarioRoutes.get('/', Usuariocontroller.listarUsuarios)
 usuarioRoutes.get('/:id', Usuariocontroller.listarUsuarioPorId)
 usuarioRoutes.put('/:id', auth, Usuariocontroller.atualizarUsuario)
-usuarioRoutes.delete('/:id', Usuariocontroller.deletarUsuario)
+usuarioRoutes.delete('/:id', auth, Usuariocontroller.deletarUsuario)
 
 module.exports = usuarioRoutes
