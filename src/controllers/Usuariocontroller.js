@@ -129,12 +129,10 @@ class Usuariocontroller {
       #swagger.summary = 'Listar todos os usuários'
       #swagger.description: 'Este endpoint lista todos os usuários cadastrados',
           schema: {
-            $cpf_usuario: '06954171778',
             $nome_usuario: 'Mario Guerreiro',
             $sexo_usuario: 'Masculino',
             $cep_usuario: '88060-400',
             $email_usuario: 'mariog@gmail.com',
-            $senha_usuario: '123456',
             $nascimento_usuario: '1984-06-26'
           }
       }
@@ -150,7 +148,10 @@ class Usuariocontroller {
     */
 
     try {
-      const usuarios = await Usuario.findAll();
+      const usuarios = await Usuario.findAll({
+        attributes: { exclude: ['cpf_usuario', 'senha_usuario'] }
+      });
+      
       if (usuarios.length === 0) {
         return res.status(404).json({ message: "Nenhum usuário encontrado" });
       }
@@ -170,12 +171,10 @@ class Usuariocontroller {
           in: 'path',
           description: 'Este endpoint busca usuário pelo ID',
           schema: {
-            $cpf_usuario: '06954171778',
             $nome_usuario: 'Mario Guerreiro',
             $sexo_usuario: 'Masculino',
             $cep_usuario: '88060-400',
             $email_usuario: 'mariog@gmail.com',
-            $senha_usuario: '123456',
             $nascimento_usuario: '1984-06-26'
           }
       }
@@ -192,7 +191,9 @@ class Usuariocontroller {
 
     try {
       const { id } = req.params;
-      const usuario = await Usuario.findByPk(id);
+      const usuario = await Usuario.findByPk(id, {
+        attributes: { exclude: ['cpf_usuario', 'senha_usuario'] }
+      });
       if (!usuario) {
         return res.status(404).json({ message: "Usuário não encontrado" });
       }
@@ -220,7 +221,6 @@ class Usuariocontroller {
           in: 'body',
           description: 'Este endpoint permite editar informações do usuário por ID',
           schema: {
-            $cpf_usuario: '06954171778',
             $nome_usuario: 'Mario Guerreiro',
             $sexo_usuario: 'Masculino',
             $cep_usuario: '88060-400',
@@ -265,7 +265,9 @@ class Usuariocontroller {
         return res.status(403).json({ error: "Você não tem permissão para editar este usuário" });
       }
 
-      await usuario.update(req.body);
+      const { cpf_usuario, ...dadosAtualizados } = req.body;
+
+      await usuario.update(dadosAtualizados);
 
         res.status(200).json({ message: "Usuário atualizado com sucesso" });
     } catch (error) {
@@ -287,6 +289,9 @@ class Usuariocontroller {
             type: 'string'
           }
       }
+      #swagger.security = [{
+        "bearerAuth": []
+      }]
       #swagger.responses: [200] = {
           description: 'Usuário deletado com sucesso'
       },
@@ -303,9 +308,21 @@ class Usuariocontroller {
 
     try {
       const { id } = req.params;
+
+      const usuarioAutenticadoId = req.payload ? req.payload.sub : null;
+
+      if (!usuarioAutenticadoId) {
+        return res.status(401).json({ error: "Usuário não autenticado" });
+      }
+
+
       const usuario = await Usuario.findByPk(id);
       if (!usuario) {
         return res.status(404).json({ message: "Usuário não encontrado" });
+      }
+
+      if (usuarioAutenticadoId !== usuario.id) {
+        return res.status(403).json({ error: "Você não tem permissão para editar este usuário" });
       }
 
       const destinosAssociados = await Destino.count({ where: {id_usuario: usuario.id} });
