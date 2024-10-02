@@ -9,36 +9,6 @@ class Usuariocontroller {
 
   async cadastrarUsuario(req, res) {
 
-    /*
-      #swagger.tags = ['Usuário'],
-      #swagger.summary = 'Cadastrar novo usuário'
-      #swagger.parameters['body'] = {
-          in: 'body',
-          description: 'Este endpoint cria um novo usuário',
-          schema: {
-            $cpf_usuario: '06954171778',
-            $nome_usuario: 'Mario Guerreiro',
-            $sexo_usuario: 'Masculino',
-            $cep_usuario: '88060-400',
-            $email_usuario: 'mariog@gmail.com',
-            $senha_usuario: '123456',
-            $nascimento_usuario: '1984-06-26'
-          }
-      }
-      #swagger.responses: [201] = {
-          description: 'Usuário cadastrado com sucesso'
-      },
-      #swagger.responses: [400] = {
-          description: 'Erro de validação, CPF inválido ou campos faltando'
-      },
-            #swagger.responses: [409] = {
-          description: 'Usuário já cadastrado no sistema'
-      },
-      #swagger.responses: [500] = {
-          description: 'Erro ao cadastrar o usuário'
-      }
-    */
-
     try {
       const { cpf_usuario, nome_usuario, sexo_usuario, cep_usuario, email_usuario, senha_usuario, nascimento_usuario } = req.body;
       let endereco_usuario = "";
@@ -51,7 +21,6 @@ class Usuariocontroller {
         return res.status(400).json({ message: cpfValido[1] });
       }
 
-      // Validação de duplicidade (CPF ou e-mail já cadastrado)
       const usuarioExistente = await Usuario.findOne({
         where: {
           [Op.or]: [{ cpf_usuario }, {email_usuario }]
@@ -97,29 +66,6 @@ class Usuariocontroller {
 
   async listarUsuarios(req, res) {
 
-    /*
-      #swagger.tags = ['Usuário'],
-      #swagger.summary = 'Listar todos os usuários'
-      #swagger.description: 'Este endpoint lista todos os usuários cadastrados',
-          schema: {
-            $nome_usuario: 'Mario Guerreiro',
-            $sexo_usuario: 'Masculino',
-            $cep_usuario: '88060-400',
-            $email_usuario: 'mariog@gmail.com',
-            $nascimento_usuario: '1984-06-26'
-          }
-      }
-      #swagger.responses: [200] = {
-      description: 'OK'
-      },
-      #swagger.responses: [404] = {
-          description: 'Nenhum usuário encontrado'
-      },
-      #swagger.responses: [500] = {
-          description: 'Erro ao listar usuários'
-      }
-    */
-
     try {
       const usuarios = await Usuario.findAll({
         attributes: { exclude: ['cpf_usuario', 'senha_usuario'] }
@@ -136,31 +82,6 @@ class Usuariocontroller {
   }
 
   async listarUsuarioPorId(req, res) {
-
-    /*
-      #swagger.tags = ['Usuário'],
-      #swagger.summary = 'Buscar usuário por ID'
-      #swagger.parameters['id'] = {
-          in: 'path',
-          description: 'Este endpoint busca usuário pelo ID',
-          schema: {
-            $nome_usuario: 'Mario Guerreiro',
-            $sexo_usuario: 'Masculino',
-            $cep_usuario: '88060-400',
-            $email_usuario: 'mariog@gmail.com',
-            $nascimento_usuario: '1984-06-26'
-          }
-      }
-      #swagger.responses: [200] = {
-          description: 'OK'
-      },
-      #swagger.responses: [404] = {
-      description: 'Usuário não encontrado'
-      },
-      #swagger.responses: [500] = {
-          description: 'Erro ao buscar o usuário pelo ID'
-      }
-    */
 
     try {
       const { id } = req.params;
@@ -179,45 +100,6 @@ class Usuariocontroller {
 
   async atualizarUsuario(req, res) {
 
-    /*
-      #swagger.tags = ['Usuário'],
-      #swagger.summary = 'Atualizar usuário por ID'
-          #swagger.parameters['id'] = {
-          in: 'path',
-          description: 'ID do usuário ao ser atualizado',
-          required: true,
-          schema: {
-            type: 'string'
-          }
-        }
-      #swagger.parameters['body'] = {
-          in: 'body',
-          description: 'Este endpoint permite editar informações do usuário por ID',
-          schema: {
-            $nome_usuario: 'Mario Guerreiro',
-            $sexo_usuario: 'Masculino',
-            $cep_usuario: '88060-400',
-            $email_usuario: 'mariog@gmail.com',
-            $senha_usuario: '123456',
-            $nascimento_usuario: '1984-06-26'
-          }
-      }
-      #swagger.security = [{
-        "bearerAuth": []
-      }]
-      #swagger.responses: [200] = {
-          description: 'Usuário atualizado com sucesso'
-      },
-      #swagger.responses: [403] = {
-          description: 'Você não tem permissão para editar este usuário'
-      },
-      #swagger.responses: [404] = {
-      description: 'Usuário não encontrado'
-      },
-      #swagger.responses: [500] = {
-          description: 'Erro ao buscar o usuário pelo ID'
-      }
-    */
 
     try {
       const { id } = req.params;
@@ -251,34 +133,7 @@ class Usuariocontroller {
 
   async deletarUsuario(req, res) {
 
-    /*
-      #swagger.tags = ['Usuário'],
-      #swagger.summary = 'Deletar usuário por ID'
-      #swagger.parameters['id'] = {
-          in: 'path',
-          description: 'Este endpoint permite remover um usuário por ID',
-          required: true,
-          schema: {
-            type: 'string'
-          }
-      }
-      #swagger.security = [{
-        "bearerAuth": []
-      }]
-      #swagger.responses: [200] = {
-          description: 'Usuário deletado com sucesso'
-      },
-      #swagger.responses: [403] = {
-          description: 'Este usuário não pode ser deletado pois tem destinos associados'
-      },
-      #swagger.responses: [404] = {
-      description: 'Usuário não encontrado'
-      },
-      #swagger.responses: [500] = {
-          description: 'Erro ao buscar o usuário pelo ID'
-      }
-    */
-
+    
     try {
       const { id } = req.params;
 

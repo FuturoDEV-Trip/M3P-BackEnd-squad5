@@ -4,33 +4,6 @@ const { sign } = require("jsonwebtoken");
 
 class LoginController {
   async login(req, res) {
-    /*  
-       #swagger.tags = ['Usuario'],
-       #swagger.parameters['body'] = {
-            in: 'body',
-            description: 'criar o Token do Usuário',
-            schema: {
-                 $email_usuario: "mariog@gmail.com",
-                 $senha_usuario: "123456"
-            }
-          }
-          #swagger.summary = 'Gerar Token para o usuário'
-          #swagger.responses: [200] = {
-                 description: "Token criado com Sucesso"
-              },
-          #swagger.responses: [400] ={
-                 description: "Campo Obrigatório"
-            },
-          #swagger.responses: [403] ={
-                 description: "Usuário sem Permissão"
-            },            
-          #swagger.responses: [404] ={
-                 description: "Usuário não encontrado"
-            },
-           #swagger.responses: [500] ={
-                 description: "Erro Geral"
-            }          
-   */
     try {
       const email_usuario = req.body.email_usuario;
       const senha_usuario = req.body.senha_usuario;

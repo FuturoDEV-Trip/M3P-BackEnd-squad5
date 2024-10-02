@@ -1,29 +1,9 @@
 const Destino = require("../models/Destino");
 const axios = require("axios");
 class DestinoController {
-  //Rota para excluir informações de um destino específico cadastrado pelo usuário.
+  
   async excluirDestino(req, res) {
-    /*  
-       #swagger.tags = ['Destino']
-       #swagger.summary = 'Rota para Excluir um Destino do usuário Logado'
-       #swagger.description = 'Rota para excluir informações de um destino específico cadastrado pelo usuário.'
-       
-       #swagger.responses: [204] = {
-             description: "Destino excluido com sucesso"
-       },
-       #swagger.responses: [401] ={
-            description: "Usuario sem permissão."
-       },
-       #swagger.responses: [403] ={
-            description: "Usuario sem permissão para exclusão deste Destino"
-       },
-       #swagger.responses: [404] ={
-            description: "Destino não encontrado"
-       },
-       #swagger.responses: [500] ={
-            description: "Erro Geral"
-       }
-    */
+  
     try {
       const { id } = req.params;
 
@@ -52,31 +32,8 @@ class DestinoController {
     }
   }
 
-  //Rota para alterar informações de um destino específico cadastrado pelo usuário.
   async alterarDestino(req, res) {
-    /*  
-       #swagger.tags = ['Destino']
-       #swagger.summary = 'Alterar o Destino do usuário Logado'
-       #swagger.parameters['id'] = { 
-           description: 'Alterar um Destino'
-       }
-       #swagger.responses: [200] = {
-             description: "Destino alterado com sucesso"
-       },
-       #swagger.responses: [401] ={
-            description: "Usuario sem permissão."
-       },
-       #swagger.responses: [403] ={
-            description: "Usuario sem permissão para alteração deste Destino"
-       },
-       #swagger.responses: [404] ={
-            description: "Destino não encontrado"
-       },
-       #swagger.responses: [500] ={
-            description: "Erro Geral"
-       }
-    */
-
+  
     try {
       const { id } = req.params;
 
@@ -105,29 +62,7 @@ class DestinoController {
     }
   }
 
-  //Rota para listar todos os locais cadastrados pelo usuário autenticado.
   async listarTodos(req, res) {
-    /*  
-       #swagger.tags = ['Destino']
-       #swagger.description = 'Rota para listar todos os locais cadastrados pelo usuário autenticado.'
-       #swagger.summary = 'Listar todos os destinos do usuário logado'
-
-       #swagger.responses: [200] = {
-             description: "Destino listado com sucesso"
-       },
-       #swagger.responses: [401] ={
-            description: "Usuario sem permissão."
-       },
-       #swagger.responses: [403] ={
-            description: "Usuario sem permissão para listar Destinos de outro usuário"
-       },
-       #swagger.responses: [404] ={
-            description: "Destino não encontrado"
-       },
-       #swagger.responses: [500] ={
-            description: "Erro Geral"
-       }
-    */
 
     try {
       const usuarioAutenticado = req.payload ? req.payload.sub : null;
@@ -142,28 +77,7 @@ class DestinoController {
     }
   }
 
-  //Rotas para listar informações detalhadas de um destino específico cadastrado pelo usuário logado
   async listarEspecifico(req, res) {
-    /*  
-       #swagger.tags = ['Destino']
-       #swagger.summary = 'Listar Destino especifico do Usuário'
-       #swagger.responses: [200] = {
-             description: "Destino Listado com sucesso"
-       },
-       #swagger.responses: [401] ={
-            description: "Usuario sem permissão."
-       },
-       #swagger.responses: [403] ={
-            description: "Usuario sem permissão para listar Destino de outro usuário"
-       },
-       #swagger.responses: [404] ={
-            description: "Destino não encontrado"
-       },
-       #swagger.responses: [500] ={
-            description: "Erro Geral"
-       }
-
-    */
     try {
       const { id } = req.params;
       const destino = await Destino.findByPk(id);
@@ -189,37 +103,8 @@ class DestinoController {
     }
   }
 
-  //Rota para cadastrar um destino para o usuário logado.
   async cadastrarDestino(req, res) {
-    /*  
-      #swagger.tags = ['Destino'],
-         #swagger.parameters['body'] = { 
-           in: 'body',
-             description: 'Adiciona um novo Destino',
-             schema:{
-        $nome_destino:"Praia do Canto",
-        $cep_destino:"88190000",
-        $img_destino:"url_img/teste.com",
-        $descricao_destino:"Lugar muito lindo"
-             }
-         }
-         #swagger.summary = 'Cadastrar Novo Destino'
-         #swagger.responses: [201] = {
-               description: "Destino cadastrado com sucesso"
-         },
-         #swagger.responses: [401] ={
-              description: "Usuario sem permissão"
-         },
-         #swagger.responses: [404] ={
-              description: "Destino não encontrado"
-         },
-         #swagger.responses: [409] ={
-              description: "Destino já cadastrado para este Usuário"
-         },       
-         #swagger.responses: [500] ={
-              description: "Erro Geral"
-         }
-     */
+   
     try {
 
       const {
@@ -262,7 +147,6 @@ class DestinoController {
           .status(409)
           .json({ message: "Destino já cadastrado para este usuário" });
       }
-      // Pegar as informações da localidade solicitada
 
       let buscaCoordenadas = await axios.get(`https://nominatim.openstreetmap.org/search?postalcode=${cep_destino}&format=json&addressdetails=1&limit=1`)
       let lat = null
