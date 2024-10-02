@@ -26,6 +26,9 @@ const Usuario = connection.define('usuarios', {
       },
       nascimento_usuario: {
         type: DataTypes.DATE
+      },
+      flag_usuario: {
+        type: DataTypes.BOOLEAN,
       }
 })
 

@@ -41,8 +41,11 @@ class LoginController {
       };
 
       const token = sign(payload, process.env.SECRET_JWT);
+      await Usuario.update({flag_usuario:true},
+        { where: { id: usuario.id }}
+      )
 
-      res.status(200).json({ Token: token });
+      res.status(200).json({ Token: token });      
     } catch (error) {
       console.log(error);
       return res
@@ -50,6 +53,19 @@ class LoginController {
         .json({ error: error, message: "Algo deu errado!" });
     }
   }
-}
 
+  async logout(req, res) {
+    try {
+      const userId = req.usuario.id;
+      await Usuario.update(
+        { flag_usuario: false },
+      { where: { id: userId } }
+      );
+      res.status(200).json({ message: "Usuário deslogado com sucesso!" });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: error.message, message: "Erro ao deslogar!" });
+    }
+  }
+}
 module.exports = new LoginController();

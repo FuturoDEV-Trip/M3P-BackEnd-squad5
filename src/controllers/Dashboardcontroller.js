@@ -7,7 +7,9 @@ class DashboardController {
     try {
       const totalLocais = await Destino.count()
 
-      const usuariosAtivos = await Usuario.count()
+      const usuariosAtivos = await Usuario.count({
+        where:{flag_usuario:true}
+      })
 
       res.status(200).json({
         total_locais: totalLocais,
