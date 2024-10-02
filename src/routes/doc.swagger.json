@@ -514,7 +514,7 @@
     "/login/": {
       "post": {
         "tags": [
-          "Usuario"
+          "Login"
         ],
         "summary": "Gerar Token para o usuário",
         "description": "",
