@@ -1,5 +1,3 @@
-// Verificar a autenticidade do token informado!
-
 const { verify } = require("jsonwebtoken")
 
 async function auth(req, res, next) {
