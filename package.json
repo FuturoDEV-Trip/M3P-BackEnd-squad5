@@ -14,16 +14,16 @@
     "sequelize": "^6.37.3",
     "swagger-ui-express": "^5.0.0"
   },
-  "name": "projeto_modulo01",
+  "name": "projeto_modulo03",
   "version": "1.0.0",
-  "description": "Projeto modelo modulo 01",
+  "description": "Projeto final de Back-End para o Módulo 3 do curso #FuturoDEV FMT",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "nodemon src/index.js",
     "swagger": "node autoGen.swagger.js"
   },
-  "author": "Ricardo Guerreiro",
+  "author": "Julia Ribeiro, Lucas Lino, Natália Cagnani e Ricardo Guerreiro",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^2.0.22",
