@@ -32,7 +32,6 @@ const Usuario = connection.define('usuarios', {
       }
 })
 
-//hooks
 Usuario.beforeSave(async (usuario) => {
     usuario.senha_usuario =  await hash(usuario.senha_usuario, 8)
     return usuario
