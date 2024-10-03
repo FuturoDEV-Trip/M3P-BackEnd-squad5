@@ -37,7 +37,7 @@ module.exports = {
           type: Sequelize.STRING
         },
         cep_destino: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.STRING,
           allowNull: false
         },
         img_destino: {
