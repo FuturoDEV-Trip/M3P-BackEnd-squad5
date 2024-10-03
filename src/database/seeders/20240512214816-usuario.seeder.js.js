@@ -16,7 +16,7 @@ module.exports = {
         senha_usuario:
           "$2a$08$XKKfg9UY7USCGmkwrCLUsulevXnUVOPWPsUO5JUb2XZlGEdqnpCBO",
         nascimento_usuario: "1965-04-15",
-        flag_usuario: "false",
+        flag_usuario: false,
       },
       {
         cpf_usuario: "04136192908",
@@ -28,7 +28,7 @@ module.exports = {
         senha_usuario:
           "$2a$08$XKKfg9UY7USCGmkwrCLUsulevXnUVOPWPsUO5JUb2XZlGEdqnpCBO",
         nascimento_usuario: "1984-06-26",
-        flag_usuario: "false",
+        flag_usuario: false,
       },
       {
         cpf_usuario: "32452578991",
@@ -40,7 +40,7 @@ module.exports = {
         senha_usuario:
           "$2a$08$XKKfg9UY7USCGmkwrCLUsulevXnUVOPWPsUO5JUb2XZlGEdqnpCBO",
         nascimento_usuario: "1998-08-23",
-        flag_usuario: "false",
+        flag_usuario: false,
       },
       {
         cpf_usuario: "81019628910",
@@ -52,7 +52,7 @@ module.exports = {
         senha_usuario:
           "$2a$08$XKKfg9UY7USCGmkwrCLUsulevXnUVOPWPsUO5JUb2XZlGEdqnpCBO",
         nascimento_usuario: "1984-07-13",
-        flag_usuario: "false",
+        flag_usuario: false,
       },
       {
         cpf_usuario: "66113267903",
@@ -64,20 +64,22 @@ module.exports = {
         senha_usuario:
           "$2a$08$XKKfg9UY7USCGmkwrCLUsulevXnUVOPWPsUO5JUb2XZlGEdqnpCBO",
         nascimento_usuario: "1984-06-26",
-        flag_usuario: "true",
+        flag_usuario: true,
       },
     ]);
   },
 
   down: async (QueryInterface, Sequelize) => {
     await Usuario.destroy({
-      email: [
-        "mariog@gmail.com",
-        "daivg@gmail.com",
-        "joana_melo@graficajardim.com.br",
-        "ian-carvalho@gmail.com",
-        "simonerosa@gmail.com",
-      ],
+      where: {
+        email_usuario: [
+          'mariog@gmail.com',
+          'daivg@gmail.com',
+          "joana_melo@graficajardim.com.br",
+          "ian-carvalho@gmail.com",
+          "simonerosa@gmail.com",
+        ]
+      }
     });
   },
 };
