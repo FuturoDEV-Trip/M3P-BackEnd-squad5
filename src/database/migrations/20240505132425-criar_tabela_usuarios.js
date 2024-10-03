@@ -48,6 +48,7 @@ module.exports = {
       flag_usuario: {
         allowNull: false,
         type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
       createdAt: {
         allowNull: false,
