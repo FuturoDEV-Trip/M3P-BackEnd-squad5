@@ -11,7 +11,6 @@ class DestinoController {
         cep_destino,
         img_destino,
         categoria_destino,
-        numero_destino,
         complemento_destino
       } = req.body;
 
