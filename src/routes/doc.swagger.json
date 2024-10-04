@@ -333,13 +333,23 @@
                 "descricao_destino": {
                   "type": "string",
                   "example": "Lugar muito lindo"
+                },
+                "categoria_destino": {
+                  "type": "string",
+                  "example": "Praia"
+                },
+                "complemento_destino": {
+                  "type": "string",
+                  "example": "Fica perto de ganchos de fora"
                 }
               },
               "required": [
                 "nome_destino",
                 "cep_destino",
                 "img_destino",
-                "descricao_destino"
+                "descricao_destino",
+                "categoria_destino",
+                "complemento_destino"
               ]
             }
           }

@@ -9,7 +9,9 @@ class DestinoController {
         descricao_destino,
         nome_destino,
         cep_destino,
-        img_destino
+        img_destino,
+        categoria_destino,
+        complemento_destino
       } = req.body;
 
       const usuarioAutenticado = req.payload ? req.payload.sub : null;
@@ -37,7 +39,7 @@ class DestinoController {
         return res.status(409).json({ message: "Destino já cadastrado para este usuário" });
       }
 
-      const { enderecoCompleto, coordenadas } = await buscarEndereco(cep_destino);
+      const { enderecoCompleto, coordenadas, localidade } = await buscarEndereco(cep_destino);
 
       if (!enderecoCompleto || !coordenadas.latitude || !coordenadas.longitude) {
         return res.status(400).json({ message: "Erro ao obter o endereço com base no CEP" });
@@ -49,6 +51,9 @@ class DestinoController {
         nome_destino,
         cep_destino,
         img_destino,
+        categoria_destino,
+        complemento_destino,
+        cidade_destino: localidade,
         localidade_destino: enderecoCompleto,
         coordenadas_destino: `${coordenadas.latitude},${coordenadas.longitude}`,
       });
