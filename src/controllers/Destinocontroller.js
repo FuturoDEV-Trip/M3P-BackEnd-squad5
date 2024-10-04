@@ -9,7 +9,11 @@ class DestinoController {
         descricao_destino,
         nome_destino,
         cep_destino,
-        img_destino
+        img_destino,
+        categoria_destino,
+        numero_destino,
+        cidade_destino,
+        complemento_destino
       } = req.body;
 
       const usuarioAutenticado = req.payload ? req.payload.sub : null;
@@ -49,6 +53,10 @@ class DestinoController {
         nome_destino,
         cep_destino,
         img_destino,
+        categoria_destino,
+        numero_destino,
+        cidade_destino,
+        complemento_destino,
         localidade_destino: enderecoCompleto,
         coordenadas_destino: `${coordenadas.latitude},${coordenadas.longitude}`,
       });
