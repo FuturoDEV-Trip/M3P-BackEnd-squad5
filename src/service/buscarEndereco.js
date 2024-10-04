@@ -19,7 +19,7 @@ async function buscarEndereco(cep) {
           };
         }
 
-        return { enderecoCompleto, coordenadas };
+        return { enderecoCompleto, coordenadas, localidade };
 
     } catch (error) {
       throw new Error("Erro ao buscar o endereço pelo CEP");
