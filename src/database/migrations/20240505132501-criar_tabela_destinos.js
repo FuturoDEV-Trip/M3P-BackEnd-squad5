@@ -41,12 +41,28 @@ module.exports = {
           allowNull: false
         },
         img_destino: {
-          type: Sequelize.STRING, 
-          allowNull: false 
+          type: Sequelize.STRING,
+          allowNull: false
+        },
+        categoria_destino: {
+          type: Sequelize.STRING,
+          allowNull: false
+        },
+        numero_destino: {
+          type: Sequelize.NUMBER,
+          allowNull: false
+        },
+        cidade_destino: {
+          type: Sequelize.STRING,
+          allowNull: false
+        },
+        complemento_destino: {
+          type: Sequelize.STRING,
+          allowNull: false
         },
         coordenadas_destino: {
           allowNull: false,
-          type: Sequelize.STRING
+          type: Sequelize.STRINGs
         },
         createdAt: {
           allowNull: false,
