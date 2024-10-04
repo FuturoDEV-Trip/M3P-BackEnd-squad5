@@ -13,9 +13,12 @@ module.exports = {
             localidade_destino: "Lagoinha do Leste",
             cep_destino: "88067100",
             img_destino: "img/praia-lagoinha.jpg",
-            uf_destino:"SC",
+            categoria_destino: "Praia",
+            cidade_destino:"Florianópolis",
+            complemento_destino:"Trilha dificil porém vale a pena",
             coordenadas_destino: "Latitude: 27º 46' 26 - Longitude: 48 29 07"
         },
+
         {
             id_usuario: 2,
             nome_destino: "Praias de Floripa",
@@ -23,17 +26,21 @@ module.exports = {
             localidade_destino: "Praia Mole",
             cep_destino: "88053620",
             img_destino: "img/praia-mole.jpg",
-            uf_destino:"SC",
+            categoria_destino: "Praia",
+            cidade_destino:"Florianópolis",
+            complemento_destino:"Trilha facíl demias",
             coordenadas_destino: "Latitude: 27º 46' 26 - Longitude 27 41 36"
         },
         {
             id_usuario: 3,
-            nome_destino: "Praias de Floripa",
+            nome_destino: "Praia Brava",
             descricao_destino: "oferece uma água limpa e cristalina, além de belezas naturais e ótimas ondas para o surf e bodyboarding.",
-            localidade_destino: "praia Brava",
+            localidade_destino: "Praia Brava",
             cep_destino: "88063400",
             img_destino: "img/praia-brava.jpg",
-            uf_destino:"SC",
+            categoria_destino: "Praia",
+            cidade_destino:"Itajai",
+            complemento_destino:"Amei o lugar, lugar lindo tranquilo",
             coordenadas_destino: "Latitude: 27º 46' 26 - Longitude 27 41 36"
         }
     ])
