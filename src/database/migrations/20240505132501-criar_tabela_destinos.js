@@ -49,7 +49,7 @@ module.exports = {
           allowNull: false
         },
         numero_destino: {
-          type: Sequelize.NUMBER,
+          type: Sequelize.INTEGER,
           allowNull: false
         },
         cidade_destino: {
@@ -62,7 +62,7 @@ module.exports = {
         },
         coordenadas_destino: {
           allowNull: false,
-          type: Sequelize.STRINGs
+          type: Sequelize.STRING
         },
         createdAt: {
           allowNull: false,
