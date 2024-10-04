@@ -61,8 +61,8 @@ module.exports = {
           allowNull: false
         },
         coordenadas_destino: {
-          allowNull: false,
-          type: Sequelize.STRING
+          type: Sequelize.STRING,
+          allowNull: false
         },
         createdAt: {
           allowNull: false,
