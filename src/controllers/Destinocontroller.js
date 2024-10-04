@@ -53,9 +53,8 @@ class DestinoController {
         cep_destino,
         img_destino,
         categoria_destino,
-        numero_destino,
-        cidade_destino: localidade,
         complemento_destino,
+        cidade_destino: localidade,
         localidade_destino: enderecoCompleto,
         coordenadas_destino: `${coordenadas.latitude},${coordenadas.longitude}`,
       });

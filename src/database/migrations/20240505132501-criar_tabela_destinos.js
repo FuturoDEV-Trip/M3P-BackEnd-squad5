@@ -48,10 +48,6 @@ module.exports = {
           type: Sequelize.STRING,
           allowNull: false
         },
-        numero_destino: {
-          type: Sequelize.INTEGER,
-          allowNull: false
-        },
         cidade_destino: {
           type: Sequelize.STRING,
           allowNull: false

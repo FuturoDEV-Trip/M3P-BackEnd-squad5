@@ -26,9 +26,6 @@ const Destino = connection.define('destinos', {
     categoria_destino: {
         type: DataTypes.STRING
     },
-    numero_destino: {
-        type: DataTypes.INTEGER
-    },
     cidade_destino: {
         type: DataTypes.STRING
     },
