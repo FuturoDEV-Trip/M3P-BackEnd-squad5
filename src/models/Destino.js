@@ -1,4 +1,4 @@
-const { DataTypes } = require('sequelize')
+const { DataTypes } = require('DataTypes')
 const { connection } = require('../database/connections')
 
 const Destino = connection.define('destinos', {
@@ -21,6 +21,18 @@ const Destino = connection.define('destinos', {
         type: DataTypes.STRING
     },
     img_destino: {
+        type: DataTypes.STRING
+    },
+    categoria_destino: {
+        type: DataTypes.STRING
+    },
+    numero_destino: {
+        type: DataTypes.INTEGER
+    },
+    cidade_destino: {
+        type: DataTypes.STRING
+    },
+    complemento_destino: {
         type: DataTypes.STRING
     }
 })
