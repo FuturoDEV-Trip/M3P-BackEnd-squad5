@@ -5,8 +5,7 @@ const { sign } = require("jsonwebtoken");
 class LoginController {
   async login(req, res) {
     try {
-      const email_usuario = req.body.email_usuario;
-      const senha_usuario = req.body.senha_usuario;
+      const { email_usuario, senha_usuario } = req.body;
 
       if (!email_usuario) {
         return res.status(400).json({ message: "O email é obrigatório" });
