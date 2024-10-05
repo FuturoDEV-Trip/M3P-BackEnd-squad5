@@ -65,21 +65,35 @@ class Usuariocontroller {
   }
 
   async listarUsuarios(req, res) {
-
     try {
-      const usuarios = await Usuario.findAll({
-        attributes: { exclude: ['cpf_usuario', 'senha_usuario'] }
-      });
-      
-      if (usuarios.length === 0) {
-        return res.status(404).json({ message: "Nenhum usuário encontrado" });
-      }
-      res.status(200).json(usuarios);
+        const { nome_usuario, email_usuario } = req.query;  
+
+        let whereCondition = {};
+
+        if (nome_usuario) {
+            whereCondition.nome_usuario = nome_usuario;
+        }
+
+        if (email_usuario) {
+            whereCondition.email_usuario = email_usuario;
+        }
+
+        const usuarios = await Usuario.findAll({
+            attributes: { exclude: ['cpf_usuario', 'senha_usuario'] },
+            where: whereCondition 
+        });
+
+        if (usuarios.length === 0) {
+            return res.status(404).json({ message: "Nenhum usuário encontrado" });
+        }
+
+        res.status(200).json(usuarios);
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Não foi possível listar todos os usuários" });
+        console.error(error);
+        res.status(500).json({ error: "Não foi possível listar todos os usuários" });
     }
-  }
+}
+
 
   async listarUsuarioPorId(req, res) {
 
