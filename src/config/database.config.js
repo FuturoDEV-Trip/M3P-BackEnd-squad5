@@ -9,3 +9,9 @@ module.exports = {
   database: process.env.DATABASE, 
   port: process.env.PORT 
 };
+/* dialectOptions: {
+  ssl: {
+      rejectUnauthorized: true,
+      require: true
+  }
+}, */
