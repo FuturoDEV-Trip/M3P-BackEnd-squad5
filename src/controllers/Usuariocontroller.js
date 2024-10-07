@@ -2,7 +2,6 @@ const Usuario = require("../models/Usuario");
 const Destino = require("../models/Destino");
 const { validarCPF } = require("../service/validarCpf");
 const { validarUsuario } = require("../service/validarUsuario");
-const { buscarEndereco } = require("../service/buscarEndereco");
 const { Op } = require('sequelize');
 
 class Usuariocontroller {
@@ -10,9 +9,7 @@ class Usuariocontroller {
   async cadastrarUsuario(req, res) {
 
     try {
-      const { cpf_usuario, nome_usuario, sexo_usuario, cep_usuario, email_usuario, senha_usuario, nascimento_usuario } = req.body;
-      let endereco_usuario = "";
-      let coordenadas_usuario = {};
+      const { cpf_usuario, nome_usuario, sexo_usuario, cep_usuario, endereco_usuario, email_usuario, senha_usuario, nascimento_usuario } = req.body;
 
       await validarUsuario(req.body);
 
@@ -31,10 +28,6 @@ class Usuariocontroller {
 
         return res.status(409).json({ message: dadosCadastrados });
       }
-
-      const { enderecoCompleto, coordenadas } = await buscarEndereco(cep_usuario);
-      endereco_usuario = enderecoCompleto;
-      coordenadas_usuario = coordenadas;
 
       const novoUsuario = await Usuario.create({
         cpf_usuario,
