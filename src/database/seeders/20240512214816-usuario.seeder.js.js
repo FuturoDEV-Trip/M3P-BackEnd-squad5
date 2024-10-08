@@ -1,6 +1,7 @@
 "use strict";
 const { QueryInterface, Sequelize } = require("sequelize");
 const Usuario = require("../../models/Usuario");
+const bcrypt = require("bcryptjs/dist/bcrypt");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
@@ -13,8 +14,7 @@ module.exports = {
         cep_usuario: "88060400",
         endereco_usuario: "",
         email_usuario: "mariog@gmail.com",
-        senha_usuario:
-          "$2a$08$XKKfg9UY7USCGmkwrCLUsulevXnUVOPWPsUO5JUb2XZlGEdqnpCBO",
+        senha_usuario: bcrypt.hashSync("12345678", 10),
         nascimento_usuario: "1965-04-15",
         flag_usuario: false,
       },
@@ -25,8 +25,7 @@ module.exports = {
         cep_usuario: "88025450",
         endereco_usuario: "",
         email_usuario: "daivg@gmail.com",
-        senha_usuario:
-          "$2a$08$XKKfg9UY7USCGmkwrCLUsulevXnUVOPWPsUO5JUb2XZlGEdqnpCBO",
+        senha_usuario: bcrypt.hashSync("12345678", 10),
         nascimento_usuario: "1984-06-26",
         flag_usuario: false,
       },
@@ -37,8 +36,7 @@ module.exports = {
         cep_usuario: "88115251",
         endereco_usuario: "",
         email_usuario: "simonerosa@gmail.com",
-        senha_usuario:
-          "$2a$08$XKKfg9UY7USCGmkwrCLUsulevXnUVOPWPsUO5JUb2XZlGEdqnpCBO",
+        senha_usuario: bcrypt.hashSync("12345678", 10),
         nascimento_usuario: "1998-08-23",
         flag_usuario: false,
       },
@@ -49,8 +47,7 @@ module.exports = {
         cep_usuario: "88095565",
         endereco_usuario: "",
         email_usuario: "ian-carvalho@gmail.com",
-        senha_usuario:
-          "$2a$08$XKKfg9UY7USCGmkwrCLUsulevXnUVOPWPsUO5JUb2XZlGEdqnpCBO",
+        senha_usuario: bcrypt.hashSync("12345678", 10),
         nascimento_usuario: "1984-07-13",
         flag_usuario: false,
       },
@@ -61,8 +58,7 @@ module.exports = {
         cep_usuario: "89214240",
         endereco_usuario: "",
         email_usuario: "joana_melo@graficajardim.com.br",
-        senha_usuario:
-          "$2a$08$XKKfg9UY7USCGmkwrCLUsulevXnUVOPWPsUO5JUb2XZlGEdqnpCBO",
+        senha_usuario: bcrypt.hashSync("12345678", 10),
         nascimento_usuario: "1984-06-26",
         flag_usuario: true,
       },
