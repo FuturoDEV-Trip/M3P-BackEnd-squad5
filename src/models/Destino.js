@@ -17,6 +17,9 @@ const Destino = connection.define('destinos', {
     localidade_destino: {
         type: DataTypes.STRING
     },
+    categoria_destino: {
+        type: DataTypes.STRING
+    },
     img_destino: {
         type: DataTypes.STRING
     },
