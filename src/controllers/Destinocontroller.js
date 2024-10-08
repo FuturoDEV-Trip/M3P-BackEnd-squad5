@@ -4,7 +4,6 @@ const { buscarEndereco } = require("../service/buscarEndereco");
 class DestinoController {
 
   async cadastrarDestino(req, res) {
-    console.log("Dados recebidos:", req.body);
     try {
       const {
         descricao_destino,
@@ -45,20 +44,6 @@ class DestinoController {
       if (!enderecoCompleto || !coordenadas.latitude || !coordenadas.longitude) {
         return res.status(400).json({ message: "Erro ao obter o endereço com base no CEP" });
       }
-
-      console.log("Dados para inserção:", {
-        id_usuario: usuarioAutenticado,
-        descricao_destino,
-        nome_destino,
-        cep_destino,
-        img_destino,
-        categoria_destino,
-        complemento_destino,
-        cidade_destino: localidade,
-        localidade_destino: enderecoCompleto,
-        latitude_destino: coordenadas.latitude,
-        longitude_destino: coordenadas.longitude
-      });
       const destino = await Destino.create({
         id_usuario: usuarioAutenticado,
         descricao_destino,
