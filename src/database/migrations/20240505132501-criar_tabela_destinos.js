@@ -56,7 +56,11 @@ module.exports = {
           type: Sequelize.STRING,
           allowNull: false
         },
-        coordenadas_destino: {
+        latitude_destino: {
+          type: Sequelize.STRING,
+          allowNull: false
+        },
+        longitude_destino: {
           type: Sequelize.STRING,
           allowNull: false
         },

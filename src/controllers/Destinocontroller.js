@@ -44,7 +44,6 @@ class DestinoController {
       if (!enderecoCompleto || !coordenadas.latitude || !coordenadas.longitude) {
         return res.status(400).json({ message: "Erro ao obter o endereço com base no CEP" });
       }
-
       const destino = await Destino.create({
         id_usuario: usuarioAutenticado,
         descricao_destino,
@@ -55,7 +54,8 @@ class DestinoController {
         complemento_destino,
         cidade_destino: localidade,
         localidade_destino: enderecoCompleto,
-        coordenadas_destino: `${coordenadas.latitude},${coordenadas.longitude}`,
+        latitude_destino: coordenadas.latitude,
+        longitude_destino: coordenadas.longitude
       });
 
       res.status(201).json(destino);
