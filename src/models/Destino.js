@@ -23,7 +23,10 @@ const Destino = connection.define('destinos', {
     img_destino: {
         type: DataTypes.STRING
     },
-    categoria_destino: {
+    latitude_destino: {
+        type: DataTypes.STRING
+    },
+    longitude_destino: {
         type: DataTypes.STRING
     },
     cidade_destino: {
