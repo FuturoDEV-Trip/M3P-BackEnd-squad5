@@ -52,8 +52,8 @@ class DestinoController {
         img_destino,
         categoria_destino,
         complemento_destino,
-        cidade_destino: localidade,
-        localidade_destino,
+        cidade_destino: cidade_destino,
+        localidade_destino: localidade_destino,
         latitude_destino,
         longitude_destino
       });
