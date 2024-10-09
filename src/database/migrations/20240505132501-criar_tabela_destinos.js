@@ -42,7 +42,7 @@ module.exports = {
         },
         img_destino: {
           type: Sequelize.STRING,
-          allowNull: false
+          allowNull: true
         },
         categoria_destino: {
           type: Sequelize.STRING,

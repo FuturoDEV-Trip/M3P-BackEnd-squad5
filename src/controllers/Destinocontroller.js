@@ -39,11 +39,12 @@ class DestinoController {
         return res.status(409).json({ message: "Destino já cadastrado para este usuário" });
       }
 
-/*       const { enderecoCompleto, coordenadas, localidade } = await buscarEndereco(cep_destino);
+      const { enderecoCompleto, coordenadas,localidade } = await buscarEndereco(cep_destino);
 
       if (!enderecoCompleto || !coordenadas.latitude || !coordenadas.longitude) {
         return res.status(400).json({ message: "Erro ao obter o endereço com base no CEP" });
-      } */
+      }
+
       const destino = await Destino.create({
         id_usuario: usuarioAutenticado,
         descricao_destino,
@@ -51,11 +52,11 @@ class DestinoController {
         cep_destino,
         img_destino,
         categoria_destino,
+        localidade_destino: enderecoCompleto,
+        cidade_destino: localidade,
         complemento_destino,
-        cidade_destino: cidade_destino,
-        localidade_destino: localidade_destino,
-        latitude_destino,
-        longitude_destino
+        latitude_destino: coordenadas.latitude,
+        longitude_destino:coordenadas.longitude
       });
 
       res.status(201).json(destino);
