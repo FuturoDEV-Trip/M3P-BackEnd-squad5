@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 
 async function auth(req, res, next) {
     try {
-        let token = req.headers['authorization']; 
+        let token = req.headers['authorization'];
 
         if (!token) {
             console.log('Erro: Nenhum token foi fornecido');
@@ -15,12 +15,13 @@ async function auth(req, res, next) {
 
         jwt.verify(token, process.env.SECRET_JWT, (err, decoded) => {
             if (err) {
-                console.log('Erro na verificação do token:', err); 
+                console.log('Erro na verificação do token:', err);
                 return res.status(403).json("Token inválido ou expirado");
             }
 
             console.log('Token decodificado com sucesso:', decoded);
-            next();  
+            req.payload = decoded;
+            next();
         });
     } catch (error) {
         console.error('Erro inesperado no auth middleware:', error.message);  // 
