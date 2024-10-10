@@ -114,8 +114,8 @@ class DestinoController {
       await destino.update(req.body);
       await destino.save();
 
-      res.status(200).json({ message: "Destino alterado com sucesso" });
-      res.json(destino);
+      res.status(200).json({ message: "Destino alterado com sucesso", destino });
+
     } catch (error) {
       console.log(error.message);
       res.status(500).json({ error: "Não foi possível atualizar o Destino" });
