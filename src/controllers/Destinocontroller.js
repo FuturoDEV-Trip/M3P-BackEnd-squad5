@@ -3,6 +3,50 @@ const { buscarEndereco } = require("../service/buscarEndereco");
 
 class DestinoController {
 
+  async listarDestinosPublicos(req, res) {
+    try {
+      const destinos = await Destino.findAll();
+      res.status(200).json(destinos);
+    } catch (error) {
+      res.status(500).json({ error: "Não foi possível listar todos os destinos" });
+    }
+  }
+
+  async listarTodos(req, res) {
+    try {
+      const usuarioAutenticado = req.payload ? req.payload.sub : null;
+      const destino = await Destino.findAll({
+        where: {
+          id_usuario: usuarioAutenticado,
+        },
+      });
+      res.json(destino);
+    } catch (error) {
+      res.status(500).json({ error: "Não foi possível listar os destinos" });
+    }
+  }
+
+  async listarEspecifico(req, res) {
+    try {
+      const { id } = req.params;
+      const destino = await Destino.findByPk(id);
+      if (!destino) {
+        return res.status(404).json({ message: "Destino não cadastrado" });
+      }
+
+      const usuarioAutenticado = req.payload ? req.payload.sub : null;
+
+      if (destino.id_usuario !== usuarioAutenticado) {
+        return res.status(403).json({ message: "Usuário sem permissão" });
+      }
+
+      res.json(destino);
+    } catch (error) {
+      console.log(error.message);
+      res.status(500).json({ error: "Não foi possível listar o Destino" });
+    }
+  }
+
   async cadastrarDestino(req, res) {
     try {
       const {
@@ -66,35 +110,6 @@ class DestinoController {
     }
   }
 
-  async excluirDestino(req, res) {
-    try {
-      const { id } = req.params;
-
-      const destino = await Destino.findByPk(id);
-
-      const usuarioAutenticado = req.payload ? req.payload.sub : null;
-      if (!destino) {
-        return res.status(404).json({ message: "Destino não encontrado" });
-      }
-      if (destino.id_usuario !== usuarioAutenticado) {
-        return res.status(403).json({
-          message: "Usuário sem permissão para exclusão deste Destino",
-        });
-      }
-
-      await Destino.destroy({
-        where: {
-          id: id,
-        },
-      });
-
-      res.status(204).json({ message: "Destino excluído com sucesso" });
-    } catch (error) {
-      console.log(error.message);
-      res.status(500).json({ error: "Não foi possível excluir o Destino" });
-    }
-  }
-
   async alterarDestino(req, res) {
     try {
       const { id } = req.params;
@@ -122,38 +137,32 @@ class DestinoController {
     }
   }
 
-  async listarTodos(req, res) {
-    try {
-      const usuarioAutenticado = req.payload ? req.payload.sub : null;
-      const destino = await Destino.findAll({
-        where: {
-          id_usuario: usuarioAutenticado,
-        },
-      });
-      res.json(destino);
-    } catch (error) {
-      res.status(500).json({ error: "Não foi possível listar os destinos" });
-    }
-  }
-
-  async listarEspecifico(req, res) {
+  async excluirDestino(req, res) {
     try {
       const { id } = req.params;
+
       const destino = await Destino.findByPk(id);
-      if (!destino) {
-        return res.status(404).json({ message: "Destino não cadastrado" });
-      }
 
       const usuarioAutenticado = req.payload ? req.payload.sub : null;
-
+      if (!destino) {
+        return res.status(404).json({ message: "Destino não encontrado" });
+      }
       if (destino.id_usuario !== usuarioAutenticado) {
-        return res.status(403).json({ message: "Usuário sem permissão" });
+        return res.status(403).json({
+          message: "Usuário sem permissão para exclusão deste Destino",
+        });
       }
 
-      res.json(destino);
+      await Destino.destroy({
+        where: {
+          id: id,
+        },
+      });
+
+      res.status(204).json({ message: "Destino excluído com sucesso" });
     } catch (error) {
       console.log(error.message);
-      res.status(500).json({ error: "Não foi possível listar o Destino" });
+      res.status(500).json({ error: "Não foi possível excluir o Destino" });
     }
   }
 }
