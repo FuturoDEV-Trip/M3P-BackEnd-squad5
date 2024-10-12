@@ -4,7 +4,6 @@ const destinoRoutes = require("./destino.route");
 const loginRoutes = require("./login.route");
 const logoutRoutes = require("./logout.route");
 const dashboardRoutes = require("./dashboard.route")
-const imgRoutes = require("./img.route")
 
 
 const routes = Router();
@@ -17,6 +16,6 @@ routes.use("/destinos", destinoRoutes);
 routes.use("/login", loginRoutes);
 routes.use("/logout", logoutRoutes);
 routes.use("/", dashboardRoutes);
-routes.use('/uploadimg', imgRoutes)
+
 
 module.exports = routes;
