@@ -1,36 +1,47 @@
-const AWS = require('aws-sdk');
 const path = require('path');
-const multerConfig = require('../config/multer')
-const mime = require('mime');
-const fs = require('fs')
+const fs = require('fs');
+const aws = require('aws-sdk');
+
+const uploadConfig = require('../config/multer');
+
 class S3Storage {
-    constructor() {
-        this.client = new AWS.S3({
-            region: 'us-east-1'
-        });
+  constructor() {
+    this.client = new aws.S3({
+      region: 'us-east-1',
+    });
+  }
+
+  async saveFile(filename) {
+    const originalPath = path.resolve(uploadConfig.directory, filename);
+    const mime = await import('mime');
+    const ContentType = mime.default.getType(originalPath);
+
+    if (!ContentType) {
+      throw new Error('File not found');
     }
 
-    async saveFile(filename) {
-        const originalPath = path.resolve(multerConfig.directory, filename);
+    const fileContent = await fs.promises.readFile(originalPath);
 
-        const ContentType = mime.getType(originalPath);
-        if (!ContentType) {
-            throw new Error("Arquivo não achado!")
-        }
+    await this.client
+      .putObject({
+        Bucket: 'viagem365',
+        Key: filename,
+        Body: fileContent,
+        ContentType,
+      })
+      .promise();
 
-        const fileContet = await fs.promises.readFile(originalPath);
+    await fs.promises.unlink(originalPath);
+  }
 
-        this.client.putObject({
-            Bucket:'viagem365',
-            Key: filename,
-            ACL: 'public-read',
-            Body: fileContet,
-            ContentType,
-        })
-        .promise()
-
-        await fs.promises.unlink(originalPath)
-    }
-
+  async deleteFile(filename) {
+    await this.client
+      .deleteObject({
+        Bucket: 'viagem365',
+        Key: filename,
+      })
+      .promise();
+  }
 }
-module.exports = S3Storage
+
+module.exports = S3Storage;
