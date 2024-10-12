@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.670.0",
     "aws-sdk": "^2.1691.0",
     "axios": "^1.6.8",
     "bcryptjs": "^2.4.3",
@@ -7,6 +8,7 @@
     "csv-parser": "^3.0.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "file-type": "^19.5.0",
     "fs": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
     "mime": "^4.0.4",
