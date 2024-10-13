@@ -43,7 +43,7 @@ O objetivo do projeto é criar um MVP da aplicação BackEnd. Será automatizado
 1. Gerar o documento swagger.json usando autoGen
     `npm run swagger-start`
 2. Acessar a documentação das rotas:
-    `http://localhost:3000/docs/`
+    `http://localhost:3000/api-docs/`
 
 ## Link para o vídeo explicativo do projeto
     https://1drv.ms/f/s!Ak6InBR-JMZYidARhyl7HHk4u1jWAA?e=vXNF4w

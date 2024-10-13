@@ -26,12 +26,10 @@ const Usuario = connection.define('usuarios', {
       },
       nascimento_usuario: {
         type: DataTypes.DATE
-      },
-      flag_usuario: {
-        type: DataTypes.BOOLEAN,
       }
 })
 
+//hooks
 Usuario.beforeSave(async (usuario) => {
     usuario.senha_usuario =  await hash(usuario.senha_usuario, 8)
     return usuario

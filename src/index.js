@@ -1,3 +1,3 @@
 const { Server } = require('./server')
 
-new Server()
+new Server() // Instanciação da Classe Server
