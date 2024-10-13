@@ -28,7 +28,7 @@ class DestinoController {
 
   async listarEspecifico(req, res) {
     try {
-      const { id } = req.params;
+      const { id } = req.params; // id do destino
       const destino = await Destino.findByPk(id);
       if (!destino) {
         return res.status(404).json({ message: "Destino não cadastrado" });
