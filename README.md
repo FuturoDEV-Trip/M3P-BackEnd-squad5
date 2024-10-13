@@ -120,4 +120,4 @@ O projeto será implantado em breve. Assim que o link do deploy estiver disponí
 
 ## 🔗 Contato
 
-Em breve...
+Caso tenha dúvidas ou sugestões, entre em contato com a equipe Check Green através do email: apicheckgreen@gmail.com.
