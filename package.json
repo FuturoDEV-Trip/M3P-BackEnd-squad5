@@ -22,11 +22,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "nodemon src/index.js",
     "swagger": "node autoGen.swagger.js",
-    "db:migrate": "npm sequelize-cli db:migrate",
-    "db:migrate:undo": "npm sequelize-cli db:migrate:undo:all",
-    "db:seed": "npm sequelize-cli db:seed:all",
-    "db:seed:undo": "npm sequelize-cli db:seed:undo:all",
-    "start:with-migrations": "npm run db:migrate && npm run db:seed && npm start"
+    "db:migrate": "npx sequelize-cli db:migrate",
+    "db:migrate:undo": "npx sequelize-cli db:migrate:undo:all",
+    "db:seed": "npx sequelize-cli db:seed:all",
+    "db:seed:undo": "npx sequelize-cli db:seed:undo:all",
+    "start:with-migrations": "npm run db:migrate && npm run db:seed && npm run start:dev"
   },
   "author": "Julia Ribeiro, Lucas Lino, Natália Cagnani e Ricardo Guerreiro",
   "license": "ISC",
