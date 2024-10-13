@@ -1,62 +1,130 @@
-### PROJETO VIAGEM365 ###
+# Check Green - Backend API
 
-## Objetivo do projeto viagem365
-O objetivo do projeto é criar um MVP da aplicação BackEnd. Será automatizado algumas ações de atendimento, criando um sistema de armazenamento de informações referente a locais - destinos, usuários do aplicativo e comentários. As rotas de Destinos somente serão acessadas com usuários autenticados.
+## Descrição
+O projeto Check Green é uma aplicação Backend desenvolvida em Node.js que automatiza o armazenamento de informações sobre destinos turísticos, usuários e comentários. Ele visa oferecer um sistema de gerenciamento de viagens, onde as rotas para gerenciamento de destinos são protegidas por autenticação.
 
-## Tecnologias utilizadas
+---
 
-- Node
-- Sequelize
-- PostgreSQL
+## 📋 Objetivo do Projeto
+O objetivo principal é criar um MVP do backend da aplicação, incluindo:
+- Armazenamento de destinos turísticos.
+- Gerenciamento de usuários e seus perfis.
+- Criação e gerenciamento de comentários em destinos.
+- Autenticação de usuários para acesso a determinadas rotas.
 
-## Como rodar o projeto
+---
 
-- Clone o repositório
-- Instale as dependências:
-    1. `npm install --dev`
-    2. `cp .env_example .env`
-    
-## Bibliotecas Utilizadas
- - Instalar as Bibliotecas
-    1. `npm install sequelize` 
-    2. `npm install pg` 
-    3. `npm install -g sequelize-cli` 
-    4. `npm install dotenv`
-    5. `npm install jsonwebtoken`
-    6. `npm install swagger-ui-express`
-    7. `npm install --save-dev swagger-autogen`
+## 🚀 Tecnologias Utilizadas
+- Node.js
+- Sequelize (ORM para interações com o banco de dados)
+- PostgreSQL (banco de dados relacional)
+- Express (framework para criar a API)
+- Swagger (documentação automática das rotas)
 
-## Rodar as migrations
-1. `sequelize db:migrate`
+---
 
-## Reverter as migrations
-1. `sequelize-cli db:migrate:undo all`
+## ⚙️ Configuração do Ambiente de Desenvolvimento
+1. Clone o repositório:
 
-## Popular os BDs
-1. `sequelize db:seed:all`
+    ```bash
+    git clone https://github.com/FuturoDEV-Trip/M3P-BackEnd-squad5
+    ```
 
-## Para rodar o repositório em ambiente local
-1. `npm run start:dev`
+2. Instale as dependências:
 
-### Documentação #####
+    ```bash
+    npm install
+    ```
 
-1. Gerar o documento swagger.json usando autoGen
-    `npm run swagger-start`
-2. Acessar a documentação das rotas:
-    `http://localhost:3000/docs/`
+3. Configuração do ambiente:
+   - Crie um arquivo `.env` a partir do arquivo `.env_example`, preenchendo as variáveis de ambiente necessárias:
 
-## Link para o vídeo explicativo do projeto
-    https://1drv.ms/f/s!Ak6InBR-JMZYidARhyl7HHk4u1jWAA?e=vXNF4w
+    ```bash
+    cp .env_example .env
+    ```
 
-## Observações:
+4. Rodar as migrations:
 
-Tem várias melhorias que posso fazer no projeto:
-1. Funções para evitar duplicidade de códigos que podem ser solucionadas criando middlewares. 
-2. Criação de perfil de usuário para melhor controle de acesso
-3. Colocação de fotos e a localização dos destinos
+    ```bash
+    npx sequelize db:migrate
+    ```
 
-Entendi toda a lógica do projeto mas ainda tenho dificuldade na linguagem para colocar os códigos no lugar certo (sintaxe e a formatação da linguagem).
+5. Popular o banco de dados (opcional):
 
-Ricardo Guerreiro
-Turma trip
+    ```bash
+    npx sequelize db:seed:all
+    ```
 
+---
+
+## 📖 Endpoints e Documentação
+- Gerar a documentação do Swagger:
+
+   Para gerar o arquivo `swagger.json` e acessar a documentação:
+
+    ```bash
+    npm run swagger-start
+    ```
+
+- Acessar a documentação Swagger na URL:
+
+    ```
+    http://localhost:3000/docs/
+    ```
+
+---
+
+## 📚 Scripts Disponíveis
+- Rodar o projeto localmente em ambiente de desenvolvimento:
+
+    ```bash
+    npm run start:dev
+    ```
+
+- Reverter migrations:
+
+    ```bash
+    npx sequelize-cli db:migrate:undo:all
+    ```
+
+---
+
+## 🛠️ Bibliotecas Utilizadas
+- [axios](https://github.com/axios/axios): Biblioteca para fazer requisições HTTP.
+- [bcryptjs](https://github.com/dcodeIO/bcrypt.js): Biblioteca para hashing de senhas.
+- [cors](https://github.com/expressjs/cors): Middleware para habilitar CORS (Cross-Origin Resource Sharing).
+- [csv-parser](https://github.com/Keyang/node-csv-parser): Biblioteca para ler arquivos CSV.
+- [dotenv](https://github.com/motdotla/dotenv): Para carregar variáveis de ambiente de um arquivo `.env`.
+- [express](https://expressjs.com/): Framework para criar a API.
+- [fs](https://nodejs.org/api/fs.html): Módulo nativo do Node.js para manipulação de arquivos.
+- [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken): Implementação de autenticação JWT.
+- [pg](https://node-postgres.com/): Driver para PostgreSQL.
+- [pg-connection-string](https://github.com/toojoy/pg-connection-string): Para manipulação de strings de conexão do PostgreSQL.
+- [sequelize](https://sequelize.org/): ORM para Node.js para interações com o banco de dados.
+- [swagger-ui-express](https://github.com/scottie1984/swagger-ui-express): Criação da documentação interativa das rotas.
+
+
+### Instalação das bibliotecas necessárias:
+
+```bash
+npm install axios bcryptjs cors csv-parser dotenv express fs jsonwebtoken pg pg-connection-string sequelize swagger-ui-express
+
+## 🚧 Melhorias Futuras
+- Implementar middlewares para evitar duplicidade de código.
+- Criação de perfis de usuário para controlar níveis de acesso.
+- Adicionar suporte a upload de fotos e localização geográfica dos destinos.
+
+## 👥 Equipe
+**Equipe Check Green:**
+- Julia Ribeiro
+- Lucas Lino Martins
+- Natália Cagnani
+- Ricardo Guerreiro
+
+## 🌐 Deploy
+
+O projeto será implantado em breve. Assim que o link do deploy estiver disponível, ele será atualizado neste README.
+
+## 🔗 Contato
+
+Em breve...
