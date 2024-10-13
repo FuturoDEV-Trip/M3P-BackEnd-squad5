@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "axios": "^1.6.8",
-    "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "csv-parser": "^3.0.0",
@@ -13,20 +12,18 @@
     "pg": "^8.11.5",
     "pg-connection-string": "^2.6.4",
     "sequelize": "^6.37.3",
-    "swagger-ui-express": "^5.0.0",
-    "yup": "^1.4.0",
-    "yupp": "^0.3.0"
+    "swagger-ui-express": "^5.0.0"
   },
-  "name": "projeto_modulo01",
+  "name": "projeto_modulo03",
   "version": "1.0.0",
-  "description": "Projeto modelo modulo 01",
+  "description": "Projeto final de Back-End para o Módulo 3 do curso #FuturoDEV FMT",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "nodemon src/index.js",
     "swagger": "node autoGen.swagger.js"
   },
-  "author": "Ricardo Guerreiro",
+  "author": "Julia Ribeiro, Lucas Lino, Natália Cagnani e Ricardo Guerreiro",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^2.0.22",

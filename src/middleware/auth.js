@@ -1,20 +1,32 @@
-// Verificar a autenticidade do token informado!
-
-const { verify } = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
 
 async function auth(req, res, next) {
     try {
-        const { authorization } = req.headers
-        req['payload'] = verify(authorization, process.env.SECRET_JWT)
+        let token = req.headers['authorization'];
 
-        next()
+        if (!token) {
+            console.log('Erro: Nenhum token foi fornecido');
+            return res.status(401).json("Token não fornecido!");
+        }
 
+        if (token.startsWith('Bearer ')) {
+            token = token.slice(7, token.length);
+        }
+
+        jwt.verify(token, process.env.SECRET_JWT, (err, decoded) => {
+            if (err) {
+                console.log('Erro na verificação do token:', err);
+                return res.status(403).json("Token inválido ou expirado");
+            }
+
+            console.log('Token decodificado com sucesso:', decoded);
+            req.payload = decoded;
+            next();
+        });
     } catch (error) {
-        return res.status(401).json({
-            message: "Erro de Autenticação!",
-            cause: error.message
-        })
+        console.error('Erro inesperado no auth middleware:', error.message);  // 
+        return res.status(401).json({ message: "Token inválido ou expirado", cause: error.message });
     }
 }
 
-module.exports = { auth }
+module.exports = { auth };
