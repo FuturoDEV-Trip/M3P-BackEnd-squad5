@@ -103,11 +103,6 @@ O objetivo principal é criar um MVP do backend da aplicação, incluindo:
 - [sequelize](https://sequelize.org/): ORM para Node.js para interações com o banco de dados.
 - [swagger-ui-express](https://github.com/scottie1984/swagger-ui-express): Criação da documentação interativa das rotas.
 
-### Instalação das bibliotecas necessárias:
-
-```bash
-npm install axios bcryptjs cors csv-parser dotenv express fs jsonwebtoken pg pg-connection-string sequelize swagger-ui-express
-
 ## 🚧 Melhorias Futuras
 - Implementar middlewares para evitar duplicidade de código.
 - Criação de perfis de usuário para controlar níveis de acesso.
