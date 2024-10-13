@@ -48,6 +48,7 @@ class DestinoController {
   }
 
   async cadastrarDestino(req, res) {
+
     try {
       const {
         descricao_destino,
@@ -66,7 +67,7 @@ class DestinoController {
 
       if (!cep_destino) {
         return res.status(400).json({ message: "O CEP é obrigatório!" });
-      }
+     }
 
       if (!nome_destino) {
         return res.status(400).json({ message: "O nome do Destino é obrigatório" });
@@ -74,7 +75,8 @@ class DestinoController {
 
       const destinoExistente = await Destino.findOne({
         where: {
-          cep_destino: cep_destino,
+          localidade_destino: localidade_destino,
+          uf_destino: uf_destino,
           id_usuario: usuarioAutenticado,
         },
       });
@@ -83,6 +85,7 @@ class DestinoController {
         return res.status(409).json({ message: "Destino já cadastrado para este usuário" });
       }
 
+
       const { enderecoCompleto, coordenadas,localidade } = await buscarEndereco(cep_destino);
 
       if (!enderecoCompleto || !coordenadas.latitude || !coordenadas.longitude) {
@@ -90,8 +93,8 @@ class DestinoController {
       }
 
       const destino = await Destino.create({
-        id_usuario: usuarioAutenticado,
-        descricao_destino,
+        id_usuario,
+        descricao_destino: descricao,
         nome_destino,
         cep_destino,
         img_destino,
@@ -101,6 +104,7 @@ class DestinoController {
         complemento_destino,
         latitude_destino: coordenadas.latitude,
         longitude_destino:coordenadas.longitude
+
       });
 
       res.status(201).json(destino);
