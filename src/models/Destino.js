@@ -14,22 +14,10 @@ const Destino = connection.define('destinos', {
     localidade_destino: {
         type: DataTypes.STRING
     },
-    categoria_destino: {
+    uf_destino: {
         type: DataTypes.STRING
     },
-    img_destino: {
-        type: DataTypes.STRING
-    },
-    latitude_destino: {
-        type: DataTypes.STRING
-    },
-    longitude_destino: {
-        type: DataTypes.STRING
-    },
-    cidade_destino: {
-        type: DataTypes.STRING
-    },
-    complemento_destino: {
+    coordenadas_destino: {
         type: DataTypes.STRING
     },
 })

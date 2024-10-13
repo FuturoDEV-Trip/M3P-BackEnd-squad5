@@ -1,18 +1,21 @@
+const axios = require('axios');
+
 async function validarCPF(cpf) {
-  cpf = cpf.replace(/\D+/g, ""); 
+  cpf = cpf.replace(/\D+/g, ""); // Remove pontos e traços
   if (!cpf) {
-    return [false, "CPF é obrigatório"];
+    return [false, "CPF deve ser obrigatório"];
   }
 
   if (cpf.length !== 11) {
     return [false, "CPF inválido. Deve conter 11 dígitos."];
   }
 
+  // Realiza a validação dos dígitos verificadores
   const primeiroDigitoValido = await validarDigito(cpf, 9);
   const segundoDigitoValido = await validarDigito(cpf, 10);
 
   if (!primeiroDigitoValido || !segundoDigitoValido) {
-    return [false, "Dígito Incorreto."];
+    return [false, "Digito Incorreto."];
   }
 
   return [true];

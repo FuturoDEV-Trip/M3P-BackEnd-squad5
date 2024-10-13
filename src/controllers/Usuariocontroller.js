@@ -1,35 +1,119 @@
 const Usuario = require("../models/Usuario");
-const Destino = require("../models/Destino");
-const { validarCPF } = require("../service/validarCpf");
-const { validarUsuario } = require("../service/validarUsuario");
-const { Op } = require('sequelize');
-
+const yup = require("yup");
+const { validarCPF } = require("../service/validacoes");
+const axios = require("axios");
 class Usuariocontroller {
-
+  //--- Rota para cadastrar o usuário ---
   async cadastrarUsuario(req, res) {
+    /*  
+            #swagger.tags = ['Usuario'],
+            #swagger.parameters['body'] = {
+                in: 'body',
+                description: 'Adiciona um novo Usuario',
+                schema: {
+                    $cpf_usuario: "06954171778",
+                    $nome_usuario: "Mario Guerreiro",
+                    $sexo_usuario: "Masculino",
+                    $cep_usuario: "88060-400",
+                    $email_usuario: "mariog@gmail.com",
+                    $senha_usuario: "123456",
+                    $nascimento_usuario: "1984-06-26"
+            }
+           }
+           #swagger.summary = 'Cadastrar Novo Usuário'
+            #swagger.responses: [201] = {
+                 description: "Usuário criado com Sucesso"
+              },
+            #swagger.responses: [400] ={
+                 description: "Campo Obrigatório"
+            },
+              #swagger.responses: [409] ={
+                 description: "Usuário já existente"
+            },
+              #swagger.responses: [500] ={
+                 description: "Erro Geral"
+            }
+    */
 
     try {
-      const { cpf_usuario, nome_usuario, sexo_usuario, cep_usuario, endereco_usuario, email_usuario, senha_usuario, nascimento_usuario } = req.body;
+      const cpf_usuario = req.body.cpf_usuario;
+      const nome_usuario = req.body.nome_usuario;
+      const sexo_usuario = req.body.sexo_usuario;
+      const cep_usuario = req.body.cep_usuario;
+      const email_usuario = req.body.email_usuario;
+      const senha_usuario = req.body.senha_usuario;
+      const nascimento_usuario = req.body.nascimento_usuario;
+      let endereco_usuario = "";
 
-      await validarUsuario(req.body);
-
+      // --- Verificação do CPF ---
       const cpfValido = await validarCPF(cpf_usuario);
       if (!cpfValido[0]) {
         return res.status(400).json({ message: cpfValido[1] });
       }
-
+      // --- Verifica Duplicidade de usuário ---
       const usuarioExistente = await Usuario.findOne({
         where: {
-          [Op.or]: [{ cpf_usuario }, {email_usuario }]
-        }
+          cpf_usuario: cpf_usuario,
+        },
       });
       if (usuarioExistente) {
-          const dadosCadastrados = usuarioExistente.email_usuario === email_usuario ? 'E-mail já cadastrado' : 'CPF já cadastrado';
-
-        return res.status(409).json({ message: dadosCadastrados });
+        return res
+          .status(409)
+          .json({ mensagem: "Usuario já cadastrado no sistema" });
       }
 
-      const novoUsuario = await Usuario.create({
+      //Validação do CEP
+      if (!cep_usuario) {
+        return res.status(400).json({ message: "O CEP é obrigatório" });
+      }
+
+      // --- Carregar endereço do cep fornecido ---
+      const response = await axios.get(
+        `https://nominatim.openstreetmap.org/search?format=json&postalcode=${cep_usuario}&country=Brazil&limit=1`
+      );
+
+      if (response.data && response.data.length > 0) {
+        endereco_usuario = response.data[0].display_name;
+      } else {
+        endereco_usuario = "";
+      }
+
+      // ---- Validação campo Sexo ----
+      if (!sexo_usuario) {
+        return res.status(400).json({ message: "O Campo sexo é obrigatório" });
+      }
+
+      // ---- Validação campo email ----
+      if (
+        email_usuario === "" ||
+        email_usuario.indexOf("@") === -1 ||
+        email_usuario.indexOf(".") === -1
+      ) {
+        return res.status(400).json({ message: "Informe um email válido" });
+      }
+
+      // ---- Validação da data de nascimento -----
+      if (!nascimento_usuario) {
+        return res
+          .status(400)
+          .json({ message: "A data de nascimento é obrigatória" });
+      }
+
+      //Validar senha do usuário
+      if (!senha_usuario) {
+        return res
+          .status(400)
+          .json({ message: "A senha do usuário é obrigatória" });
+      }
+
+      if (!nascimento_usuario.match(/\d{4}-\d{2}-\d{2}/gm)) {
+        return res.status(400).json({
+          message: "A data de nascimento tem que ser no formato AAAAMMDD",
+        });
+      }
+
+      // --- INCLUI O NOVO USUARIO ---
+      const usuario = await Usuario.create({
         cpf_usuario,
         nome_usuario,
         sexo_usuario,
@@ -40,137 +124,10 @@ class Usuariocontroller {
         nascimento_usuario,
       });
 
-      res.status(201).json(novoUsuario);
+      res.status(201).json(usuario);
     } catch (error) {
-
-      if (error.message.includes("Nome deve conter entre 3 e 33 caracteres") || 
-          error.message.includes("Informe um e-mail válido") || 
-          error.message.includes("Senha é obrigatória") ||
-          error.message.includes("Gênero é obrigatório") ||
-          error.message.includes("Data de nascimento") ||
-          error.message.includes("CEP é obrigatório")) {
-        return res.status(400).json({ message: error.message });
-      }
-
-      console.error(error);
-      res.status(500).json({ error: "Não foi possível cadastrar o usuário" });
-    }
-  }
-
-  async listarUsuarios(req, res) {
-    try {
-        const { nome_usuario, email_usuario } = req.query;  
-
-        let whereCondition = {};
-
-        if (nome_usuario) {
-            whereCondition.nome_usuario = nome_usuario;
-        }
-
-        if (email_usuario) {
-            whereCondition.email_usuario = email_usuario;
-        }
-
-        const usuarios = await Usuario.findAll({
-            attributes: { exclude: ['cpf_usuario', 'senha_usuario'] },
-            where: whereCondition 
-        });
-
-        if (usuarios.length === 0) {
-            return res.status(404).json({ message: "Nenhum usuário encontrado" });
-        }
-
-        res.status(200).json(usuarios);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: "Não foi possível listar todos os usuários" });
-    }
-}
-
-
-  async listarUsuarioPorId(req, res) {
-
-    try {
-      const { id } = req.params;
-      const usuario = await Usuario.findByPk(id, {
-        attributes: { exclude: ['cpf_usuario', 'senha_usuario'] }
-      });
-      if (!usuario) {
-        return res.status(404).json({ message: "Usuário não encontrado" });
-      }
-      res.status(200).json(usuario);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Erro ao buscar o usuário pelo ID" });
-    }
-  }
-
-  async atualizarUsuario(req, res) {
-
-
-    try {
-      const { id } = req.params;
-
-      const usuarioAutenticadoId = req.payload ? req.payload.sub : null;
-
-      if (!usuarioAutenticadoId) {
-        return res.status(401).json({ error: "Usuário não autenticado" });
-      }
-
-      const usuario = await Usuario.findByPk(id);
-
-      if (!usuario) {
-        return res.status(404).json( { message: "Usuário não encontrado" });
-      }
-
-      if (usuarioAutenticadoId !== usuario.id) {
-        return res.status(403).json({ error: "Você não tem permissão para editar este usuário" });
-      }
-
-      const { cpf_usuario, ...dadosAtualizados } = req.body;
-
-      await usuario.update(dadosAtualizados);
-
-        res.status(200).json({ message: "Usuário atualizado com sucesso" });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Erro ao atualizar o usuário" });
-    }
-  }
-
-  async deletarUsuario(req, res) {
-
-    
-    try {
-      const { id } = req.params;
-
-      const usuarioAutenticadoId = req.payload ? req.payload.sub : null;
-
-      if (!usuarioAutenticadoId) {
-        return res.status(401).json({ error: "Usuário não autenticado" });
-      }
-
-
-      const usuario = await Usuario.findByPk(id);
-      if (!usuario) {
-        return res.status(404).json({ message: "Usuário não encontrado" });
-      }
-
-      if (usuarioAutenticadoId !== usuario.id) {
-        return res.status(403).json({ error: "Você não tem permissão para editar este usuário" });
-      }
-
-      const destinosAssociados = await Destino.count({ where: {id_usuario: usuario.id} });
-
-      if (destinosAssociados > 0) {
-        return res.status(403).json({ error: "Este usuário não pode ser deletado pois tem destinos associados" });
-      }
-
-      await usuario.destroy();
-      res.status(200).json({ message: "Usuário deletado com sucesso" });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Erro ao deletar o usuário" });
+      console.log(error.message);
+      res.status(500).json({ error: "Não fo possível cadastrar o usuario" });
     }
   }
 }
