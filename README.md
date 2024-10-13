@@ -1,6 +1,5 @@
 # Check Green - Backend API
 
-## Descrição
 O projeto Check Green é uma aplicação Backend desenvolvida em Node.js que automatiza o armazenamento de informações sobre destinos turísticos, usuários e comentários. Ele visa oferecer um sistema de gerenciamento de viagens, onde as rotas para gerenciamento de destinos são protegidas por autenticação.
 
 ---
