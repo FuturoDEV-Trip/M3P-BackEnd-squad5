@@ -22,7 +22,7 @@ async function auth(req, res, next) {
             next();
         });
     } catch (error) {
-        console.error('Erro inesperado no auth middleware:', error.message);  // 
+        console.error('Erro inesperado no auth middleware:', error.message);
         return res.status(401).json({ message: "Token inválido ou expirado", cause: error.message });
     }
 }
