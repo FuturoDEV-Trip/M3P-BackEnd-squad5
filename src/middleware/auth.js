@@ -18,8 +18,6 @@ async function auth(req, res, next) {
                 console.log('Erro na verificação do token:', err);
                 return res.status(403).json("Token inválido ou expirado");
             }
-
-            console.log('Token decodificado com sucesso:', decoded);
             req.payload = decoded;
             next();
         });

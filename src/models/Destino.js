@@ -11,6 +11,10 @@ const Destino = connection.define('destinos', {
     descricao_destino: {
         type: DataTypes.STRING
     },
+    cep_destino: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     localidade_destino: {
         type: DataTypes.STRING
     },

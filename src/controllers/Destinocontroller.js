@@ -48,7 +48,7 @@ class DestinoController {
   }
 
   async cadastrarDestino(req, res) {
-
+    
     try {
       const {
         descricao_destino,
@@ -56,9 +56,10 @@ class DestinoController {
         cep_destino,
         img_destino,
         categoria_destino,
-        complemento_destino
+        complemento_destino,
+        localidade_destino
       } = req.body;
-
+      
       const usuarioAutenticado = req.payload ? req.payload.sub : null;
 
       if (!descricao_destino) {
@@ -76,7 +77,6 @@ class DestinoController {
       const destinoExistente = await Destino.findOne({
         where: {
           localidade_destino: localidade_destino,
-          uf_destino: uf_destino,
           id_usuario: usuarioAutenticado,
         },
       });
@@ -91,10 +91,10 @@ class DestinoController {
       if (!enderecoCompleto || !coordenadas.latitude || !coordenadas.longitude) {
         return res.status(400).json({ message: "Erro ao obter o endereço com base no CEP" });
       }
-
+      
       const destino = await Destino.create({
-        id_usuario,
-        descricao_destino: descricao,
+        id_usuario: usuarioAutenticado,
+        descricao_destino,
         nome_destino,
         cep_destino,
         img_destino,
@@ -106,6 +106,7 @@ class DestinoController {
         longitude_destino:coordenadas.longitude
 
       });
+
 
       res.status(201).json(destino);
     } catch (error) {

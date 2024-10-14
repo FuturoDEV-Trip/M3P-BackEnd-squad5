@@ -18,7 +18,6 @@ async function buscarEndereco(cep) {
             longitude: responseOpenStreetMap.data[0].lon
           };
         }
-        console.log(coordenadas)
 
         return { enderecoCompleto, coordenadas, localidade };
 
