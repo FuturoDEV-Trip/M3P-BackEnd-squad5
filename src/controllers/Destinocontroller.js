@@ -1,3 +1,4 @@
+const { stack } = require("sequelize/lib/utils");
 const Destino = require("../models/Destino");
 const { buscarEndereco } = require("../service/buscarEndereco");
 
@@ -48,7 +49,7 @@ class DestinoController {
   }
 
   async cadastrarDestino(req, res) {
-    
+
     try {
       const {
         descricao_destino,
@@ -59,7 +60,7 @@ class DestinoController {
         complemento_destino,
         localidade_destino
       } = req.body;
-      
+
       const usuarioAutenticado = req.payload ? req.payload.sub : null;
 
       if (!descricao_destino) {
@@ -68,7 +69,7 @@ class DestinoController {
 
       if (!cep_destino) {
         return res.status(400).json({ message: "O CEP é obrigatório!" });
-     }
+      }
 
       if (!nome_destino) {
         return res.status(400).json({ message: "O nome do Destino é obrigatório" });
@@ -86,12 +87,12 @@ class DestinoController {
       }
 
 
-      const { enderecoCompleto, coordenadas,localidade } = await buscarEndereco(cep_destino);
+      const { enderecoCompleto, coordenadas, localidade } = await buscarEndereco(cep_destino);
 
       if (!enderecoCompleto || !coordenadas.latitude || !coordenadas.longitude) {
         return res.status(400).json({ message: "Erro ao obter o endereço com base no CEP" });
       }
-      
+
       const destino = await Destino.create({
         id_usuario: usuarioAutenticado,
         descricao_destino,
@@ -103,15 +104,19 @@ class DestinoController {
         cidade_destino: localidade,
         complemento_destino,
         latitude_destino: coordenadas.latitude,
-        longitude_destino:coordenadas.longitude
+        longitude_destino: coordenadas.longitude
 
       });
 
 
       res.status(201).json(destino);
     } catch (error) {
-      console.error(error.message);
-      res.status(500).json({ error: "Não foi possível cadastrar o Destino" });
+      console.error("Erro ao cadsatrar destino: ", error.message, error.stack);
+      res.status(500).json({
+        error: "Não foi possível cadastrar o Destino",
+        detalhes: error.message,
+        stack: error.stack
+      });
     }
   }
 
