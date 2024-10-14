@@ -116,7 +116,7 @@ O objetivo principal é criar um MVP do backend da aplicação, incluindo:
 
 ## 🌐 Deploy
 
-O projeto será implantado em breve. Assim que o link do deploy estiver disponível, ele será atualizado neste README.
+Aproveite para visualizar o projeto rodando, o link do deploy pode ser [acessado por aqui](https://m3p-backend-squad5-qb0x.onrender.com/).
 
 ## 🔗 Contato
 
