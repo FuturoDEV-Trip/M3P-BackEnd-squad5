@@ -21,6 +21,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "nodemon src/index.js",
+    "start": "node src/index.js",
     "swagger": "node autoGen.swagger.js"
   },
   "author": "Julia Ribeiro, Lucas Lino, Natália Cagnani e Ricardo Guerreiro",
